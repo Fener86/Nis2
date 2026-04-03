@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>·KAPLET – NIS 2 Assessment</title>
+<style>
+:root {
+  --black:   #000000;
+  --dark:    #0e0e0e;
+  --card:    #111111;
+  --border:  #222222;
+  --border2: #2e2e2e;
+  --green:   #3DED7A;
+  --green2:  #1c8c3e;
+  --white:   #ffffff;
+  --gray:    #999999;
+  --dim:     #444444;
+  --red:     #FF4444;
+  --yellow:  #FFD166;
+  --teal:    #06D6A0;
+  --blue:    #4CC9F0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+
+/* ── TOP BAR ── */
+.top-bar{height:2px;background:var(--green);width:100%}
+header{background:var(--black);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:17px;font-weight:700;color:var(--green);letter-spacing:2px}
+.hright{font-size:10px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase}
+
+/* ── PROGRESS ── */
+.prog-wrap{max-width:860px;margin:0 auto;padding:28px 32px 0}
+.prog-steps{display:flex;border-bottom:1px solid var(--border)}
+.prog-step{flex:1;padding:10px 6px 12px;text-align:center;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:default;transition:all .2s}
+.prog-step.active{color:var(--green);border-bottom-color:var(--green)}
+.prog-step.done{color:var(--gray);border-bottom-color:var(--green2)}
+.prog-step .sn{font-size:16px;font-weight:800;display:block;margin-bottom:3px}
+.prog-step.done .sn::before{content:'✓ ';font-size:12px}
+
+/* ── CONTAINER ── */
+.wrap{max-width:860px;margin:0 auto;padding:36px 32px 100px}
+
+/* ── CARDS ── */
+.card{display:none}
+.card.on{display:block}
+
+.vtag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.vtag.gray{color:var(--dim)}
+.ctitle{font-size:28px;font-weight:300;color:var(--white);line-height:1.15;margin-bottom:6px}
+.ctitle strong{font-weight:700}
+.csub{font-size:12.5px;color:var(--gray);margin-bottom:28px;line-height:1.65;max-width:680px}
+.hrule{height:1px;background:var(--border);margin-bottom:28px}
+
+/* ── FIELD ── */
+.fg{margin-bottom:26px}
+.flabel{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:10px}
+.flabel .req{color:var(--green)}
+
+input[type=text],select,textarea{
+  width:100%;padding:11px 15px;
+  background:var(--card);border:1px solid var(--border);
+  color:var(--white);font-size:13.5px;border-radius:3px;
+  font-family:inherit;transition:border-color .2s;appearance:none
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green)}
+select option{background:var(--dark)}
+textarea{resize:vertical;min-height:72px;color:var(--gray)}
+textarea:focus{color:var(--white)}
+
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rg.cols3{grid-template-columns:1fr 1fr 1fr}
+.ri{
+  padding:11px 14px;border:1px solid var(--border);border-radius:3px;
+  cursor:pointer;transition:all .15s;font-size:12px;color:var(--gray);
+  display:flex;align-items:flex-start;gap:10px;background:var(--card);
+  line-height:1.4
+}
+.ri:hover{border-color:var(--dim);color:var(--white)}
+.ri.s{border-color:var(--green);color:var(--white);background:rgba(61,237,122,.06)}
+.ri input{display:none}
+.dot{width:13px;height:13px;border:1.5px solid var(--dim);border-radius:50%;flex-shrink:0;margin-top:2px;transition:all .15s}
+.ri.s .dot{border-color:var(--green);background:var(--green)}
+
+/* section divider inside card */
+.sdiv{margin:32px 0 24px;padding-top:24px;border-top:1px solid var(--border)}
+.sdiv-title{font-size:11px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
+
+/* ── VENDOR CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{
+  padding:6px 14px;border:1px solid var(--border);border-radius:20px;
+  font-size:11px;color:var(--gray);cursor:pointer;transition:all .15s
+}
+.chip:hover{border-color:var(--dim);color:var(--white)}
+.chip.s{border-color:var(--green);color:var(--green);background:rgba(61,237,122,.07)}
+
+/* ── NAV ── */
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:36px}
+.btn{padding:11px 26px;border:none;border-radius:3px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;letter-spacing:.5px}
+.btn-back{background:transparent;border:1px solid var(--border);color:var(--gray)}
+.btn-back:hover{border-color:var(--dim);color:var(--white)}
+.btn-next{background:var(--green);color:var(--black)}
+.btn-next:hover{background:#60f094;transform:translateY(-1px)}
+.btn-go{background:var(--green);color:var(--black);font-size:13.5px;padding:13px 32px}
+.btn-go:hover{background:#60f094;transform:translateY(-1px)}
+
+/* ── RESULTS ── */
+#results{display:none}
+.res-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.res-title{font-size:34px;font-weight:300;color:var(--white);margin-bottom:20px;line-height:1.1}
+.res-title strong{color:var(--green);font-weight:700}
+
+.nis2badge{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:3px;font-size:12.5px;font-weight:600;margin-bottom:8px;border:1px solid}
+.b-ess{background:rgba(255,68,68,.1);color:var(--red);border-color:var(--red)}
+.b-imp{background:rgba(255,209,102,.1);color:var(--yellow);border-color:var(--yellow)}
+.b-ver{background:rgba(76,201,240,.1);color:var(--blue);border-color:var(--blue)}
+.b-out{background:rgba(6,214,160,.1);color:var(--teal);border-color:var(--teal)}
+.nis2desc{font-size:12px;color:var(--gray);line-height:1.65;max-width:720px;margin-bottom:28px}
+
+/* score */
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px}
+.sbox{border:1px solid var(--border);border-radius:3px;padding:20px;text-align:center}
+.sbox.r{border-color:rgba(255,68,68,.35)}
+.sbox.y{border-color:rgba(255,209,102,.35)}
+.sbox.g{border-color:rgba(6,214,160,.35)}
+.snum{font-size:48px;font-weight:900;line-height:1}
+.sbox.r .snum{color:var(--red)}
+.sbox.y .snum{color:var(--yellow)}
+.sbox.g .snum{color:var(--teal)}
+.slabel{font-size:8.5px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-top:6px}
+
+/* vertical sections */
+.vsec{margin-bottom:36px}
+.vsec-header{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:0}
+.vsec-header.r{color:var(--red)}
+.vsec-header.y{color:var(--yellow)}
+.vsec-header.g{color:var(--teal)}
+.vsec-header.b{color:var(--blue)}
+
+/* gap item */
+.gi{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.gi:last-child{border-bottom:none}
+.gacc{width:3px;border-radius:2px;flex-shrink:0;align-self:stretch}
+.gacc.r{background:var(--red)}
+.gacc.y{background:var(--yellow)}
+.gacc.g{background:var(--teal)}
+.gacc.b{background:var(--blue)}
+.gbody{flex:1}
+.gprio{font-size:8.5px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.gprio.r{color:var(--red)}
+.gprio.y{color:var(--yellow)}
+.gprio.g{color:var(--teal)}
+.gprio.b{color:var(--blue)}
+.gtitle{font-size:13.5px;font-weight:700;color:var(--white);margin-bottom:4px}
+.gdesc{font-size:11.5px;color:var(--gray);line-height:1.6}
+.gart{font-size:10px;color:var(--green);margin-top:5px}
+.gact{font-size:11px;color:var(--white);margin-top:5px;font-style:italic}
+
+/* next box */
+.nbox{border:1px solid var(--green);border-radius:3px;padding:22px;margin-top:32px;background:rgba(61,237,122,.03)}
+.nbox-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.nbox-body{font-size:12.5px;color:var(--gray);line-height:1.7}
+
+.btn-reset{width:100%;background:transparent;border:1px solid var(--border);color:var(--dim);padding:13px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:12.5px;margin-top:22px;transition:all .2s;letter-spacing:.5px}
+.btn-reset:hover{border-color:var(--dim);color:var(--white)}
+
+/* hide logic */
+.hidden{display:none!important}
+
+@media(max-width:620px){
+  .wrap,.prog-wrap{padding-left:16px;padding-right:16px}
+  header{padding:12px 16px}
+  .rg,.rg.cols3{grid-template-columns:1fr}
+  .scores{grid-template-columns:1fr}
+  .ctitle{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<header>
+  <div class="logo">·KAPLET</div>
+  <div class="hright">NIS 2 Assessment · D.Lgs. 138/2024</div>
+</header>
+
+<div class="prog-wrap" id="progWrap">
+  <div class="prog-steps" id="progSteps"></div>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════════════════════════════════════════════
+     STEP 1 – ANAGRAFICA
+════════════════════════════════════════════════════════ -->
+<div class="card on" id="s1">
+  <div class="vtag">_01 / anagrafica cliente</div>
+  <div class="ctitle">Chi è <strong>il cliente?</strong></div>
+  <div class="csub">Dati aziendali per classificare il soggetto rispetto alla Direttiva NIS 2 — D.Lgs. 138/2024, Artt. 3 e 6, Allegati I e II.</div>
+  <div class="hrule"></div>
+
+  <div class="fg">
+    <div class="flabel">Nome azienda <span class="req">*</span></div>
+    <input type="text" id="company" placeholder="es. Rossi Srl" />
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Settore di attività <span class="req">*</span></div>
+    <select id="sector">
+      <option value="">— Seleziona —</option>
+      <optgroup label="Allegato I – Settori altamente critici (Soggetti Essenziali)">
+        <option value="energy">Energia (elettricità, gas, idrogeno, petrolio, teleriscaldamento)</option>
+        <option value="transport">Trasporti (aereo, ferroviario, marittimo, stradale)</option>
+        <option value="banking">Banche e infrastrutture mercati finanziari</option>
+        <option value="health">Sanità (ospedali, laboratori, farmaceutica, dispositivi medici)</option>
+        <option value="water_d">Acqua potabile</option>
+        <option value="water_w">Acque reflue</option>
+        <option value="digital">Infrastrutture digitali (datacenter, cloud, CDN, IXP, DNS, TLD)</option>
+        <option value="ict">Gestione servizi ICT B2B (MSP / MSSP)</option>
+        <option value="space">Spazio</option>
+        <option value="pa_c">Pubblica Amministrazione Centrale</option>
+      </optgroup>
+      <optgroup label="Allegato II – Settori critici (Soggetti Importanti)">
+        <option value="postal">Servizi postali e di corriere</option>
+        <option value="waste">Gestione rifiuti</option>
+        <option value="chem">Produzione chimica</option>
+        <option value="food">Produzione e distribuzione alimentare</option>
+        <option value="med">Fabbricazione dispositivi medici e diagnostici</option>
+        <option value="it_mfg">Fabbricazione computer, elettronica, ottica</option>
+        <option value="elec">Fabbricazione macchinari elettrici</option>
+        <option value="auto">Fabbricazione autoveicoli e mezzi di trasporto</option>
+        <option value="dig_mkt">Fornitori servizi digitali (marketplace, motori ricerca, social)</option>
+        <option value="research">Ricerca e università</option>
+        <option value="pa_l">Pubblica Amministrazione Locale</option>
+      </optgroup>
+      <optgroup label="Altri settori">
+        <option value="retail">Retail / Commercio</option>
+        <option value="hospitality">Immobiliare / Strutture ricettive / Hospitality</option>
+        <option value="construction">Costruzioni / Impiantistica</option>
+        <option value="other">Altro settore</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Numero di dipendenti <span class="req">*</span></div>
+    <div class="rg">
+      <label class="ri" onclick="pick('emp','micro')"><input type="radio" name="emp" value="micro"><div class="dot"></div>Meno di 10 — Microimpresa</label>
+      <label class="ri" onclick="pick('emp','small')"><input type="radio" name="emp" value="small"><div class="dot"></div>10 – 49 — Piccola impresa</label>
+      <label class="ri" onclick="pick('emp','medium')"><input type="radio" name="emp" value="medium"><div class="dot"></div>50 – 249 — Media impresa</label>
+      <label class="ri" onclick="pick('emp','large')"><input type="radio" name="emp" value="large"><div class="dot"></div>250 o più — Grande impresa</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Fatturato annuo approssimativo</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('rev','low')"><input type="radio" name="rev" value="low"><div class="dot"></div>Meno di 10 milioni €</label>
+      <label class="ri" onclick="pick('rev','mid')"><input type="radio" name="rev" value="mid"><div class="dot"></div>10 – 50 milioni €</label>
+      <label class="ri" onclick="pick('rev','high')"><input type="radio" name="rev" value="high"><div class="dot"></div>Oltre 50 milioni €</label>
+      <label class="ri" onclick="pick('rev','na')"><input type="radio" name="rev" value="na"><div class="dot"></div>Non disponibile</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Commerciale Kaplet</div>
+    <input type="text" id="agent" placeholder="Nome commerciale" />
+  </div>
+
+  <div class="nav"><div></div><button class="btn btn-next" onclick="go(2)">Avanti →</button></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STEP 2 – NETWORKING
+════════════════════════════════════════════════════════ -->
+<div class="card" id="s2">
+  <div class="vtag">_02 / networking</div>
+  <div class="ctitle">Infrastruttura di <strong>rete</strong></div>
+  <div class="csub">Art. 24 D.Lgs. 138/2024 — sicurezza reti e sistemi informativi, controllo accessi, autenticazione multifattore, logging e monitoraggio.</div>
+  <div class="hrule"></div>
+
+  <div class="fg">
+    <div class="flabel">Protezione perimetrale (firewall)</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('fw','none')"><input type="radio" name="fw" value="none"><div class="dot"></div>Nessun firewall — solo router ISP</label>
+      <label class="ri" onclick="pick('fw','basic')"><input type="radio" name="fw" value="basic"><div class="dot"></div>Firewall base / UTM datato senza IPS</label>
+      <label class="ri" onclick="pick('fw','ngfw')"><input type="radio" name="fw" value="ngfw"><div class="dot"></div>NGFW con IPS/IDS attivo e aggiornato</label>
+      <label class="ri" onclick="pick('fw','managed')"><input type="radio" name="fw" value="managed"><div class="dot"></div>Firewall gestito — managed service</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Segmentazione di rete (VLAN)</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('vlan','none')"><input type="radio" name="vlan" value="none"><div class="dot"></div>Rete piatta — nessuna VLAN</label>
+      <label class="ri" onclick="pick('vlan','partial')"><input type="radio" name="vlan" value="partial"><div class="dot"></div>VLAN parziali — non complete</label>
+      <label class="ri" onclick="pick('vlan','good')"><input type="radio" name="vlan" value="good"><div class="dot"></div>Segmentata: VMS, IoT, AV, dati separati</label>
+      <label class="ri" onclick="pick('vlan','full')"><input type="radio" name="vlan" value="full"><div class="dot"></div>Completa con micro-segmentazione</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Accesso remoto alla rete</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('remote','open')"><input type="radio" name="remote" value="open"><div class="dot"></div>RDP / VNC esposto direttamente su internet</label>
+      <label class="ri" onclick="pick('remote','vpn')"><input type="radio" name="remote" value="vpn"><div class="dot"></div>VPN senza autenticazione a più fattori (MFA)</label>
+      <label class="ri" onclick="pick('remote','vpn_mfa')"><input type="radio" name="remote" value="vpn_mfa"><div class="dot"></div>VPN con MFA (TOTP, certificati, token)</label>
+      <label class="ri" onclick="pick('remote','ztna')"><input type="radio" name="remote" value="ztna"><div class="dot"></div>ZTNA / Zero Trust (Zscaler, Cloudflare…)</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Inventario asset di rete</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('inv','none')"><input type="radio" name="inv" value="none"><div class="dot"></div>Nessun inventario aggiornato</label>
+      <label class="ri" onclick="pick('inv','manual')"><input type="radio" name="inv" value="manual"><div class="dot"></div>Inventario manuale non aggiornato</label>
+      <label class="ri" onclick="pick('inv','doc')"><input type="radio" name="inv" value="doc"><div class="dot"></div>Inventario documentato e aggiornato</label>
+      <label class="ri" onclick="pick('inv','auto')"><input type="radio" name="inv" value="auto"><div class="dot"></div>Discovery automatico (NAC, IPAM…)</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Logging e monitoraggio rete</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('log','none')"><input type="radio" name="log" value="none"><div class="dot"></div>Nessun log di rete</label>
+      <label class="ri" onclick="pick('log','local')"><input type="radio" name="log" value="local"><div class="dot"></div>Log locali — retention inferiore a 12 mesi</label>
+      <label class="ri" onclick="pick('log','central')"><input type="radio" name="log" value="central"><div class="dot"></div>Log centralizzati — retention 12+ mesi</label>
+      <label class="ri" onclick="pick('log','siem')"><input type="radio" name="log" value="siem"><div class="dot"></div>SIEM con alerting e correlazione eventi</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Patch management — switch, AP, firewall, infrastruttura</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('patch_net','none')"><input type="radio" name="patch_net" value="none"><div class="dot"></div>Nessun processo di aggiornamento</label>
+      <label class="ri" onclick="pick('patch_net','manual')"><input type="radio" name="patch_net" value="manual"><div class="dot"></div>Aggiornamenti manuali e sporadici</label>
+      <label class="ri" onclick="pick('patch_net','scheduled')"><input type="radio" name="patch_net" value="scheduled"><div class="dot"></div>Patch cycle pianificato e documentato</label>
+      <label class="ri" onclick="pick('patch_net','auto')"><input type="radio" name="patch_net" value="auto"><div class="dot"></div>Vulnerability scan + patch automatizzati</label>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-back" onclick="go(1)">← Indietro</button>
+    <button class="btn btn-next" onclick="go(3)">Avanti →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STEP 3 – SECURITY: VMS + VIDEOSORVEGLIANZA
+════════════════════════════════════════════════════════ -->
+<div class="card" id="s3">
+  <div class="vtag">_03 / security — videosorveglianza & VMS</div>
+  <div class="ctitle">Telecamere IP, encoder<br>e <strong>sistemi VMS</strong></div>
+  <div class="csub">Art. 24 D.Lgs. 138/2024 — vulnerability management, controllo accessi, sicurezza reti. Comprende: telecamere IP, NVR/DVR, encoder/decoder video, VMS software (Axis, Avigilon, Bosch, Pelco, Milestone, Genetec…).</div>
+  <div class="hrule"></div>
+
+  <div class="fg">
+    <div class="flabel">Impianto di videosorveglianza IP presente?</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('hasVms','yes');showEl('vmsBlock',true)"><input type="radio" name="hasVms" value="yes"><div class="dot"></div>Sì</label>
+      <label class="ri" onclick="pick('hasVms','no');showEl('vmsBlock',false)"><input type="radio" name="hasVms" value="no"><div class="dot"></div>No</label>
+    </div>
+  </div>
+
+  <div id="vmsBlock">
+    <div class="fg">
+      <div class="flabel">Vendor / piattaforma VMS utilizzata</div>
+      <div class="chips" id="vmsVendors">
+        <div class="chip" onclick="toggleChip(this,'vv_axis')">Axis</div>
+        <div class="chip" onclick="toggleChip(this,'vv_avigilon')">Avigilon</div>
+        <div class="chip" onclick="toggleChip(this,'vv_bosch')">Bosch</div>
+        <div class="chip" onclick="toggleChip(this,'vv_pelco')">Pelco</div>
+        <div class="chip" onclick="toggleChip(this,'vv_milestone')">Milestone</div>
+        <div class="chip" onclick="toggleChip(this,'vv_genetec')">Genetec</div>
+        <div class="chip" onclick="toggleChip(this,'vv_hanwha')">Hanwha</div>
+        <div class="chip" onclick="toggleChip(this,'vv_hikvision')">Hikvision</div>
+        <div class="chip" onclick="toggleChip(this,'vv_dahua')">Dahua</div>
+        <div class="chip" onclick="toggleChip(this,'vv_other')">Altro</div>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Tipologia dispositivi presenti</div>
+      <div class="chips">
+        <div class="chip" onclick="toggleChip(this,'vd_ipcam')">Telecamere IP</div>
+        <div class="chip" onclick="toggleChip(this,'vd_ptz')">Telecamere PTZ</div>
+        <div class="chip" onclick="toggleChip(this,'vd_nvr')">NVR / DVR</div>
+        <div class="chip" onclick="toggleChip(this,'vd_enc')">Encoder video</div>
+        <div class="chip" onclick="toggleChip(this,'vd_dec')">Decoder / videowall</div>
+        <div class="chip" onclick="toggleChip(this,'vd_ai')">Telecamere con AI / analytics</div>
+        <div class="chip" onclick="toggleChip(this,'vd_thermal')">Termiche / ANPR</div>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Numero approssimativo di telecamere</div>
+      <div class="rg cols3">
+        <label class="ri" onclick="pick('ncam','few')"><input type="radio" name="ncam" value="few"><div class="dot"></div>Meno di 20</label>
+        <label class="ri" onclick="pick('ncam','mid')"><input type="radio" name="ncam" value="mid"><div class="dot"></div>20 – 100</label>
+        <label class="ri" onclick="pick('ncam','many')"><input type="radio" name="ncam" value="many"><div class="dot"></div>Oltre 100</label>
+      </div>
+    </div>
+
+    <div class="sdiv">
+      <div class="sdiv-title">_sicurezza impianto</div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Stato firmware telecamere, NVR ed encoder</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('firm','unknown')"><input type="radio" name="firm" value="unknown"><div class="dot"></div>Non monitorato — non sappiamo</label>
+        <label class="ri" onclick="pick('firm','old')"><input type="radio" name="firm" value="old"><div class="dot"></div>Non aggiornato da oltre 12 mesi</label>
+        <label class="ri" onclick="pick('firm','periodic')"><input type="radio" name="firm" value="periodic"><div class="dot"></div>Aggiornato periodicamente</label>
+        <label class="ri" onclick="pick('firm','auto')"><input type="radio" name="firm" value="auto"><div class="dot"></div>Aggiornamento automatico gestito</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Credenziali di accesso — VMS, telecamere, NVR, encoder</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('vcreds','default')"><input type="radio" name="vcreds" value="default"><div class="dot"></div>Credenziali di fabbrica (admin/admin, 12345…)</label>
+        <label class="ri" onclick="pick('vcreds','shared')"><input type="radio" name="vcreds" value="shared"><div class="dot"></div>Password unica condivisa tra operatori</label>
+        <label class="ri" onclick="pick('vcreds','personal')"><input type="radio" name="vcreds" value="personal"><div class="dot"></div>Account nominali senza MFA</label>
+        <label class="ri" onclick="pick('vcreds','mfa')"><input type="radio" name="vcreds" value="mfa"><div class="dot"></div>Account nominali con MFA</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Accesso remoto al VMS da internet</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('vexp','direct')"><input type="radio" name="vexp" value="direct"><div class="dot"></div>Port forwarding diretto — DDNS / IP pubblico</label>
+        <label class="ri" onclick="pick('vexp','vpn')"><input type="radio" name="vexp" value="vpn"><div class="dot"></div>Solo tramite VPN aziendale</label>
+        <label class="ri" onclick="pick('vexp','cloud')"><input type="radio" name="vexp" value="cloud"><div class="dot"></div>Tramite cloud del vendor (Axis, Avigilon Alta…)</label>
+        <label class="ri" onclick="pick('vexp','none')"><input type="radio" name="vexp" value="none"><div class="dot"></div>Non accessibile da remoto</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Accesso remoto tecnici / manutentori impianto</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('vtech','uncontrolled')"><input type="radio" name="vtech" value="uncontrolled"><div class="dot"></div>Accesso libero, non controllato</label>
+        <label class="ri" onclick="pick('vtech','shared')"><input type="radio" name="vtech" value="shared"><div class="dot"></div>Credenziali condivise con il fornitore</label>
+        <label class="ri" onclick="pick('vtech','tracked')"><input type="radio" name="vtech" value="tracked"><div class="dot"></div>Accesso tracciato con credenziali nominali</label>
+        <label class="ri" onclick="pick('vtech','jit')"><input type="radio" name="vtech" value="jit"><div class="dot"></div>Accesso just-in-time con approvazione</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Log accessi e audit trail VMS</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('vlog','none')"><input type="radio" name="vlog" value="none"><div class="dot"></div>Nessun log di accesso</label>
+        <label class="ri" onclick="pick('vlog','local')"><input type="radio" name="vlog" value="local"><div class="dot"></div>Log locali — meno di 90 giorni</label>
+        <label class="ri" onclick="pick('vlog','adequate')"><input type="radio" name="vlog" value="adequate"><div class="dot"></div>Log conservati 12+ mesi</label>
+        <label class="ri" onclick="pick('vlog','central')"><input type="radio" name="vlog" value="central"><div class="dot"></div>Log centralizzati e monitorati</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Posizione fisica server VMS / NVR</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('vloc','exposed')"><input type="radio" name="vloc" value="exposed"><div class="dot"></div>In area accessibile / non protetta fisicamente</label>
+        <label class="ri" onclick="pick('vloc','locked')"><input type="radio" name="vloc" value="locked"><div class="dot"></div>In armadio chiuso a chiave</label>
+        <label class="ri" onclick="pick('vloc','rack')"><input type="radio" name="vloc" value="rack"><div class="dot"></div>In rack room / CED protetto</label>
+        <label class="ri" onclick="pick('vloc','cloud')"><input type="radio" name="vloc" value="cloud"><div class="dot"></div>Soluzione cloud / hosted</label>
+      </div>
+    </div>
+  </div><!-- /vmsBlock -->
+
+  <div class="nav">
+    <button class="btn btn-back" onclick="go(2)">← Indietro</button>
+    <button class="btn btn-next" onclick="go(4)">Avanti →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STEP 4 – CONTROLLO ACCESSI
+════════════════════════════════════════════════════════ -->
+<div class="card" id="s4">
+  <div class="vtag">_04 / security — controllo accessi</div>
+  <div class="ctitle">Sistemi di <strong>controllo accessi</strong></div>
+  <div class="csub">Art. 24 D.Lgs. 138/2024 — controllo accessi fisici e logici, sicurezza fisica dell'ambiente, gestione identità. Comprende: lettori badge, centraline, tornelli, software ACS, integrazione con VMS.</div>
+  <div class="hrule"></div>
+
+  <div class="fg">
+    <div class="flabel">Sistema di controllo accessi (ACS) presente?</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('hasAcs','yes');showEl('acsBlock',true)"><input type="radio" name="hasAcs" value="yes"><div class="dot"></div>Sì</label>
+      <label class="ri" onclick="pick('hasAcs','no');showEl('acsBlock',false)"><input type="radio" name="hasAcs" value="no"><div class="dot"></div>No — solo chiavi meccaniche / serrature</label>
+    </div>
+  </div>
+
+  <div id="acsBlock">
+    <div class="fg">
+      <div class="flabel">Tipologia dispositivi e tecnologia</div>
+      <div class="chips">
+        <div class="chip" onclick="toggleChip(this,'ac_badge')">Badge / tessera RFID</div>
+        <div class="chip" onclick="toggleChip(this,'ac_pin')">PIN / tastierino</div>
+        <div class="chip" onclick="toggleChip(this,'ac_bio')">Biometria (impronta, viso)</div>
+        <div class="chip" onclick="toggleChip(this,'ac_mobile')">Badge mobile (smartphone)</div>
+        <div class="chip" onclick="toggleChip(this,'ac_turnstile')">Tornelli / varchi</div>
+        <div class="chip" onclick="toggleChip(this,'ac_intercom')">Videocitofonia IP</div>
+        <div class="chip" onclick="toggleChip(this,'ac_electric')">Maniglioni / elettroserrature</div>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Gestione credenziali badge e accessi fisici</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('acreds','no_policy')"><input type="radio" name="acreds" value="no_policy"><div class="dot"></div>Nessuna policy — badge mai revocati</label>
+        <label class="ri" onclick="pick('acreds','manual')"><input type="radio" name="acreds" value="manual"><div class="dot"></div>Revoca manuale quando ricordato</label>
+        <label class="ri" onclick="pick('acreds','process')"><input type="radio" name="acreds" value="process"><div class="dot"></div>Procedura definita di onboarding/offboarding</label>
+        <label class="ri" onclick="pick('acreds','auto')"><input type="radio" name="acreds" value="auto"><div class="dot"></div>Automatizzato — integrato con HR/AD</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Software ACS — accesso alla piattaforma di gestione</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('asoft','default')"><input type="radio" name="asoft" value="default"><div class="dot"></div>Credenziali default o condivise</label>
+        <label class="ri" onclick="pick('asoft','personal')"><input type="radio" name="asoft" value="personal"><div class="dot"></div>Account nominali senza MFA</label>
+        <label class="ri" onclick="pick('asoft','mfa')"><input type="radio" name="asoft" value="mfa"><div class="dot"></div>Account nominali con MFA</label>
+        <label class="ri" onclick="pick('asoft','rbac')"><input type="radio" name="asoft" value="rbac"><div class="dot"></div>RBAC + MFA + log accessi</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Accesso remoto all'ACS da internet</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('aexp','direct')"><input type="radio" name="aexp" value="direct"><div class="dot"></div>Esposto direttamente su internet</label>
+        <label class="ri" onclick="pick('aexp','vpn')"><input type="radio" name="aexp" value="vpn"><div class="dot"></div>Solo tramite VPN</label>
+        <label class="ri" onclick="pick('aexp','cloud')"><input type="radio" name="aexp" value="cloud"><div class="dot"></div>Piattaforma cloud del vendor</label>
+        <label class="ri" onclick="pick('aexp','none')"><input type="radio" name="aexp" value="none"><div class="dot"></div>Non accessibile da remoto</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Aggiornamenti firmware centraline e lettori</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('afirm','unknown')"><input type="radio" name="afirm" value="unknown"><div class="dot"></div>Non monitorato</label>
+        <label class="ri" onclick="pick('afirm','old')"><input type="radio" name="afirm" value="old"><div class="dot"></div>Non aggiornato da oltre 12 mesi</label>
+        <label class="ri" onclick="pick('afirm','periodic')"><input type="radio" name="afirm" value="periodic"><div class="dot"></div>Aggiornato periodicamente</label>
+        <label class="ri" onclick="pick('afirm','managed')"><input type="radio" name="afirm" value="managed"><div class="dot"></div>Gestito dal fornitore con SLA</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Integrazione ACS ↔ VMS (correlazione eventi)</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('aint','none')"><input type="radio" name="aint" value="none"><div class="dot"></div>Nessuna integrazione — sistemi separati</label>
+        <label class="ri" onclick="pick('aint','partial')"><input type="radio" name="aint" value="partial"><div class="dot"></div>Integrazione parziale / manuale</label>
+        <label class="ri" onclick="pick('aint','full')"><input type="radio" name="aint" value="full"><div class="dot"></div>Integrazione completa con correlazione eventi</label>
+        <label class="ri" onclick="pick('aint','ai')"><input type="radio" name="aint" value="ai"><div class="dot"></div>Integrazione con AI analytics / PSIM</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <div class="flabel">Log eventi ACS (ingressi, anomalie, allarmi)</div>
+      <div class="rg">
+        <label class="ri" onclick="pick('alog','none')"><input type="radio" name="alog" value="none"><div class="dot"></div>Nessun log</label>
+        <label class="ri" onclick="pick('alog','local')"><input type="radio" name="alog" value="local"><div class="dot"></div>Log locali — breve retention</label>
+        <label class="ri" onclick="pick('alog','adequate')"><input type="radio" name="alog" value="adequate"><div class="dot"></div>Log conservati 12+ mesi</label>
+        <label class="ri" onclick="pick('alog','central')"><input type="radio" name="alog" value="central"><div class="dot"></div>Log centralizzati nel SIEM</label>
+      </div>
+    </div>
+  </div><!-- /acsBlock -->
+
+  <div class="nav">
+    <button class="btn btn-back" onclick="go(3)">← Indietro</button>
+    <button class="btn btn-next" onclick="go(5)">Avanti →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STEP 5 – AUDIO / VIDEO
+════════════════════════════════════════════════════════ -->
+<div class="card" id="s5">
+  <div class="vtag">_05 / audio video & unified communication</div>
+  <div class="ctitle">Ecosistema <strong>AV, VC e sale</strong></div>
+  <div class="csub">Art. 24 D.Lgs. 138/2024 — superficie d'attacco spesso ignorata nei security assessment. Comprende: AV over IP, videoconferenza, digital signage, sistemi di controllo sala, KVM remoto, sale riunioni.</div>
+  <div class="hrule"></div>
+
+  <div class="fg">
+    <div class="flabel">Sistemi AV / UC presenti — seleziona tutti quelli applicabili</div>
+    <div class="chips">
+      <div class="chip" onclick="toggleChip(this,'av_aovip')">AV over IP (encoder/decoder)</div>
+      <div class="chip" onclick="toggleChip(this,'av_signage')">Digital Signage / CMS</div>
+      <div class="chip" onclick="toggleChip(this,'av_vc')">Videoconferenza (Cisco, Poly, Neat, Logitech…)</div>
+      <div class="chip" onclick="toggleChip(this,'av_ctrl')">Sistemi di controllo sala (Crestron, AMX, Extron…)</div>
+      <div class="chip" onclick="toggleChip(this,'av_kvm')">KVM remoto / console management</div>
+      <div class="chip" onclick="toggleChip(this,'av_wall')">Videowall / display room</div>
+      <div class="chip" onclick="toggleChip(this,'av_uc')">Microsoft Teams Rooms / Zoom Rooms</div>
+      <div class="chip" onclick="toggleChip(this,'av_none')">Nessun sistema AV significativo</div>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Credenziali e accesso admin ai dispositivi AV / VC</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('avcreds','default')"><input type="radio" name="avcreds" value="default"><div class="dot"></div>Credenziali di fabbrica mai cambiate</label>
+      <label class="ri" onclick="pick('avcreds','shared')"><input type="radio" name="avcreds" value="shared"><div class="dot"></div>Password condivise tra installatori / IT</label>
+      <label class="ri" onclick="pick('avcreds','personal')"><input type="radio" name="avcreds" value="personal"><div class="dot"></div>Account nominali senza MFA</label>
+      <label class="ri" onclick="pick('avcreds','managed')"><input type="radio" name="avcreds" value="managed"><div class="dot"></div>Account gestiti con MFA e rotazione periodica</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Aggiornamento firmware dispositivi AV / VC</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('avfirm','unknown')"><input type="radio" name="avfirm" value="unknown"><div class="dot"></div>Non monitorato — non sappiamo</label>
+      <label class="ri" onclick="pick('avfirm','old')"><input type="radio" name="avfirm" value="old"><div class="dot"></div>Non aggiornato da oltre 12 mesi</label>
+      <label class="ri" onclick="pick('avfirm','periodic')"><input type="radio" name="avfirm" value="periodic"><div class="dot"></div>Aggiornato periodicamente</label>
+      <label class="ri" onclick="pick('avfirm','managed')"><input type="radio" name="avfirm" value="managed"><div class="dot"></div>Gestito con patch cycle documentato</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Segmentazione di rete per i dispositivi AV</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('avnet','flat')"><input type="radio" name="avnet" value="flat"><div class="dot"></div>Stessa rete dei PC aziendali</label>
+      <label class="ri" onclick="pick('avnet','partial')"><input type="radio" name="avnet" value="partial"><div class="dot"></div>Parzialmente separata</label>
+      <label class="ri" onclick="pick('avnet','vlan')"><input type="radio" name="avnet" value="vlan"><div class="dot"></div>VLAN AV dedicata</label>
+      <label class="ri" onclick="pick('avnet','full')"><input type="radio" name="avnet" value="full"><div class="dot"></div>VLAN AV + policy ACL verso altre reti</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Accesso remoto per manutenzione AV (fornitore / installatore)</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('avremote','open')"><input type="radio" name="avremote" value="open"><div class="dot"></div>Aperto — nessun controllo</label>
+      <label class="ri" onclick="pick('avremote','vpn')"><input type="radio" name="avremote" value="vpn"><div class="dot"></div>Tramite VPN aziendale</label>
+      <label class="ri" onclick="pick('avremote','tool')"><input type="radio" name="avremote" value="tool"><div class="dot"></div>Tool di remote support controllato (TeamViewer, AnyDesk gestito…)</label>
+      <label class="ri" onclick="pick('avremote','none')"><input type="radio" name="avremote" value="none"><div class="dot"></div>Nessun accesso remoto — solo on-site</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Sistemi di videoconferenza — riunioni e comunicazioni cifrate</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('vcenc','no')"><input type="radio" name="vcenc" value="no"><div class="dot"></div>Nessuna cifratura o verifica</label>
+      <label class="ri" onclick="pick('vcenc','partial')"><input type="radio" name="vcenc" value="partial"><div class="dot"></div>Cifratura presente ma non verificata</label>
+      <label class="ri" onclick="pick('vcenc','yes')"><input type="radio" name="vcenc" value="yes"><div class="dot"></div>Cifratura end-to-end attiva e verificata</label>
+      <label class="ri" onclick="pick('vcenc','na')"><input type="radio" name="vcenc" value="na"><div class="dot"></div>Non applicabile — nessun sistema VC</label>
+    </div>
+  </div>
+
+  <div class="sdiv">
+    <div class="sdiv-title">_processi e governance (tutti i verticali)</div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Backup e disaster recovery</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('backup','none')"><input type="radio" name="backup" value="none"><div class="dot"></div>Nessun backup regolare</label>
+      <label class="ri" onclick="pick('backup','local')"><input type="radio" name="backup" value="local"><div class="dot"></div>Solo locale — mai testato</label>
+      <label class="ri" onclick="pick('backup','offsite')"><input type="radio" name="backup" value="offsite"><div class="dot"></div>Offsite / cloud — test sporadici</label>
+      <label class="ri" onclick="pick('backup','dr')"><input type="radio" name="backup" value="dr"><div class="dot"></div>DR plan documentato e testato periodicamente</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Gestione incidenti e notifica CSIRT Italia</div>
+    <div class="rg">
+      <label class="ri" onclick="pick('incident','none')"><input type="radio" name="incident" value="none"><div class="dot"></div>Nessuna procedura</label>
+      <label class="ri" onclick="pick('incident','informal')"><input type="radio" name="incident" value="informal"><div class="dot"></div>Gestione informale — nessun IRP</label>
+      <label class="ri" onclick="pick('incident','irp')"><input type="radio" name="incident" value="irp"><div class="dot"></div>IRP documentato</label>
+      <label class="ri" onclick="pick('incident','csirt')"><input type="radio" name="incident" value="csirt"><div class="dot"></div>IRP + referente CSIRT designato</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Formazione e awareness cybersecurity <span style="color:var(--green);font-size:9px;letter-spacing:1px">· Art. 24 lett. g</span></div>
+    <div class="rg">
+      <label class="ri" onclick="pick('training','none')"><input type="radio" name="training" value="none"><div class="dot"></div>Nessuna formazione cybersecurity</label>
+      <label class="ri" onclick="pick('training','occasional')"><input type="radio" name="training" value="occasional"><div class="dot"></div>Occasionale / solo quando richiesta</label>
+      <label class="ri" onclick="pick('training','annual')"><input type="radio" name="training" value="annual"><div class="dot"></div>Piano annuale strutturato e documentato</label>
+      <label class="ri" onclick="pick('training','continuous')"><input type="radio" name="training" value="continuous"><div class="dot"></div>Continua con phishing test e KPI misurati</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Crittografia — dati in transito e a riposo <span style="color:var(--green);font-size:9px;letter-spacing:1px">· Art. 24 lett. h</span></div>
+    <div class="rg">
+      <label class="ri" onclick="pick('crypto','none')"><input type="radio" name="crypto" value="none"><div class="dot"></div>Nessuna cifratura — dati trasmessi in chiaro</label>
+      <label class="ri" onclick="pick('crypto','partial')"><input type="radio" name="crypto" value="partial"><div class="dot"></div>Solo parziale (es. HTTPS ma no storage cifrato)</label>
+      <label class="ri" onclick="pick('crypto','transit')"><input type="radio" name="crypto" value="transit"><div class="dot"></div>Dati in transito cifrati, dati a riposo no</label>
+      <label class="ri" onclick="pick('crypto','full')"><input type="radio" name="crypto" value="full"><div class="dot"></div>Cifratura completa — transito e riposo — verificata</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Valutazione sicurezza fornitori ICT e di impianto <span style="color:var(--green);font-size:9px;letter-spacing:1px">· Art. 24 lett. d — supply chain</span></div>
+    <div class="rg">
+      <label class="ri" onclick="pick('supplychain','none')"><input type="radio" name="supplychain" value="none"><div class="dot"></div>Nessuna verifica — fornitori mai valutati</label>
+      <label class="ri" onclick="pick('supplychain','contract')"><input type="radio" name="supplychain" value="contract"><div class="dot"></div>Solo clausole contrattuali generiche</label>
+      <label class="ri" onclick="pick('supplychain','questionnaire')"><input type="radio" name="supplychain" value="questionnaire"><div class="dot"></div>Questionario sicurezza ai fornitori chiave</label>
+      <label class="ri" onclick="pick('supplychain','full')"><input type="radio" name="supplychain" value="full"><div class="dot"></div>Assessment periodico (ISO 27001, SOC 2, TISAX…)</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Consapevolezza CDA / organi direttivi sugli obblighi NIS 2 <span style="color:var(--green);font-size:9px;letter-spacing:1px">· Art. 23 — responsabilità personale amministratori</span></div>
+    <div class="rg">
+      <label class="ri" onclick="pick('cda','unaware')"><input type="radio" name="cda" value="unaware"><div class="dot"></div>Il CDA non è informato degli obblighi NIS 2</label>
+      <label class="ri" onclick="pick('cda','partial')"><input type="radio" name="cda" value="partial"><div class="dot"></div>Ne è a conoscenza ma non ha approvato misure</label>
+      <label class="ri" onclick="pick('cda','approved')"><input type="radio" name="cda" value="approved"><div class="dot"></div>Ha approvato formalmente un piano di adeguamento</label>
+      <label class="ri" onclick="pick('cda','full')"><input type="radio" name="cda" value="full"><div class="dot"></div>Supervisiona attivamente l'implementazione</label>
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="flabel">Note aggiuntive</div>
+    <textarea id="notes" placeholder="Dettagli impianti, vendor specifici, situazioni particolari…"></textarea>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-back" onclick="go(4)">← Indietro</button>
+    <button class="btn btn-go" onclick="runAnalysis()">_genera report NIS 2</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     RESULTS
+════════════════════════════════════════════════════════ -->
+<div id="results">
+  <div class="res-tag">_report nis 2 assessment</div>
+  <div class="res-title">Gap Analysis<br><strong>NIS 2</strong></div>
+  <div id="rCompany" style="font-size:11px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px"></div>
+  <div id="rBadge"></div>
+  <div class="nis2desc" id="rDesc"></div>
+
+  <div class="scores">
+    <div class="sbox r"><div class="snum" id="sCrit">0</div><div class="slabel">Criticità</div></div>
+    <div class="sbox y"><div class="snum" id="sWarn">0</div><div class="slabel">Attenzione</div></div>
+    <div class="sbox g"><div class="snum" id="sOk">0</div><div class="slabel">Conformi</div></div>
+  </div>
+
+  <!-- vertical sections in report -->
+  <div class="vsec" id="sec-net" style="display:none">
+    <div class="vsec-header b">_networking</div>
+    <div id="g-net"></div>
+  </div>
+  <div class="vsec" id="sec-vms" style="display:none">
+    <div class="vsec-header r">_security — videosorveglianza & VMS</div>
+    <div id="g-vms"></div>
+  </div>
+  <div class="vsec" id="sec-acs" style="display:none">
+    <div class="vsec-header y">_security — controllo accessi</div>
+    <div id="g-acs"></div>
+  </div>
+  <div class="vsec" id="sec-av" style="display:none">
+    <div class="vsec-header g">_audio video & unified communication</div>
+    <div id="g-av"></div>
+  </div>
+  <div class="vsec" id="sec-gov" style="display:none">
+    <div class="vsec-header" style="color:var(--dim)">_governance & processi</div>
+    <div id="g-gov"></div>
+  </div>
+
+  <div class="nbox">
+    <div class="nbox-tag">_prossimi passi con Kaplet</div>
+    <div class="nbox-body" id="rNext"></div>
+  </div>
+
+  <!-- PROPOSTA COMMERCIALE -->
+  <div style="margin-top:24px;border:1px solid var(--border);border-radius:3px;padding:22px">
+    <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:16px">_proposta commerciale consigliata</div>
+    <div id="rProposta"></div>
+  </div>
+
+  <button class="btn-reset" onclick="resetAll()">↩ Nuova analisi</button>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let cur = 1;
+const TOTAL = 5;
+const STEP_LABELS = ['_anagrafica','_networking','_security VMS','_ctrl accessi','_audio video'];
+
+// ── PROGRESS ───────────────────────────────────────────────────────────────
+function renderProg() {
+  document.getElementById('progSteps').innerHTML = STEP_LABELS.map((l, i) => {
+    const n = i + 1;
+    let cls = n === cur ? 'active' : n < cur ? 'done' : '';
+    return `<div class="prog-step ${cls}"><span class="sn">${n}</span>${l}</div>`;
+  }).join('');
+}
+
+function go(n) {
+  document.getElementById('s' + cur).classList.remove('on');
+  cur = n;
+  document.getElementById('s' + cur).classList.add('on');
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('progWrap').style.display = '';
+  renderProg();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── RADIO ──────────────────────────────────────────────────────────────────
+function pick(name, val) {
+  document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+    el.closest('.ri').classList.remove('s');
+  });
+  const t = document.querySelector(`input[name="${name}"][value="${val}"]`);
+  if (t) t.closest('.ri').classList.add('s');
+}
+
+function gv(name) {
+  const el = document.querySelector(`.ri.s input[name="${name}"]`);
+  return el ? el.value : null;
+}
+
+// ── CHIPS ──────────────────────────────────────────────────────────────────
+const chipState = {};
+function toggleChip(el, key) {
+  chipState[key] = !chipState[key];
+  el.classList.toggle('s', chipState[key]);
+}
+function hasChip(key) { return !!chipState[key]; }
+
+// ── SHOW/HIDE ──────────────────────────────────────────────────────────────
+function showEl(id, show) {
+  document.getElementById(id).style.display = show ? '' : 'none';
+}
+
+// ── ANALYSIS ───────────────────────────────────────────────────────────────
+function runAnalysis() {
+  const d = {
+    company: document.getElementById('company').value || 'Cliente',
+    sector: document.getElementById('sector').value,
+    emp: gv('emp'), rev: gv('rev'),
+    // networking
+    fw: gv('fw'), vlan: gv('vlan'), remote: gv('remote'),
+    inv: gv('inv'), log: gv('log'), patch_net: gv('patch_net'),
+    // vms
+    hasVms: gv('hasVms'), firm: gv('firm'), vcreds: gv('vcreds'),
+    vexp: gv('vexp'), vtech: gv('vtech'), vlog: gv('vlog'), vloc: gv('vloc'),
+    // acs
+    hasAcs: gv('hasAcs'), acreds: gv('acreds'), asoft: gv('asoft'),
+    aexp: gv('aexp'), afirm: gv('afirm'), aint: gv('aint'), alog: gv('alog'),
+    // av
+    avcreds: gv('avcreds'), avfirm: gv('avfirm'), avnet: gv('avnet'),
+    avremote: gv('avremote'), vcenc: gv('vcenc'),
+    // governance
+    backup: gv('backup'), incident: gv('incident'),
+    training: gv('training'), crypto: gv('crypto'),
+    supplychain: gv('supplychain'), cda: gv('cda'),
+  };
+
+  // ── NIS2 Classification ──────────────────────────────────────────────────
+  const ESS = ['energy','transport','banking','health','water_d','water_w','digital','ict','space','pa_c'];
+  const IMP = ['postal','waste','chem','food','med','it_mfg','elec','auto','dig_mkt','research','pa_l'];
+  const medPlus = ['medium','large'].includes(d.emp);
+  const highRev = ['high'].includes(d.rev);
+
+  let cls = 'outside', badge = '', desc = '';
+  if (ESS.includes(d.sector) && (medPlus || highRev)) {
+    cls='essential'; badge='🔴 Soggetto Essenziale — NIS 2 obbligatoria';
+    desc='Allegato I D.Lgs. 138/2024. Obblighi massimi: 43 misure ACN (det. 164179/2025), notifica CSIRT entro 24h dal 1° gen 2026, responsabilità diretta degli organi direttivi (Art. 23). Sanzioni fino a 10.000.000 € o 2% del fatturato globale.';
+  } else if (IMP.includes(d.sector) && (medPlus || highRev)) {
+    cls='important'; badge='🟡 Soggetto Importante — NIS 2 applicabile';
+    desc='Allegato II D.Lgs. 138/2024. Obblighi: 37 misure ACN, notifica CSIRT Italia, vigilanza semplificata. Sanzioni fino a 7.000.000 € o 1,4% del fatturato globale. Registrazione ACN obbligatoria entro febbraio di ogni anno.';
+  } else if (ESS.includes(d.sector) || IMP.includes(d.sector)) {
+    cls='verify'; badge='🔵 Da verificare — dimensione borderline';
+    desc="Il settore rientra negli allegati NIS 2 ma la dimensione potrebbe escludere l'azienda. ACN può comunque qualificarla come soggetto. Verificare con registrazione sulla piattaforma ACN. Categorizzazione ufficiale prevista entro aprile 2026.";
+  } else if (['ict','construction'].includes(d.sector)) {
+    cls='verify'; badge='🔵 Potenziale fornitore supply chain NIS 2';
+    desc="Se l'azienda fornisce servizi ICT, networking, security o impianti speciali a soggetti NIS 2, è soggetta agli obblighi di supply chain (Art. 24 lett. d). I clienti NIS 2 richiederanno compliance anche ai loro fornitori.";
+  } else {
+    cls='outside'; badge='🟢 Settore non soggetto a NIS 2';
+    desc="Il senon è tra quelli obbligati dalla NIS 2 (Allegati I e II, D.Lgs. 138/2024). Non ci sono obblighi diretti. Se l’azienda però lavora come fornitrice di soggetti NIS 2, potrebbe ricevere richieste di adeguamento nell’ambito della loro supply chain."
+  }
+
+  const bMap = {essential:'b-ess', important:'b-imp', verify:'b-ver', outside:'b-out'};
+
+  // ── GAP COLLECTIONS ──────────────────────────────────────────────────────
+  const netGaps=[], vmsGaps=[], acsGaps=[], avGaps=[], govGaps=[];
+
+  // helper
+  function gap(arr, prio, title, desc, art, action='') {
+    arr.push({prio, title, desc, art, action});
+  }
+
+  // ── NETWORKING GAPS ──────────────────────────────────────────────────────
+  // Firewall
+  if (!d.fw||d.fw==='none') gap(netGaps,'crit','Nessun firewall perimetrale','Qualsiasi dispositivo in rete (telecamera, switch, NVR, player signage) è raggiungibile dall\'esterno senza filtro. Vulnerabilità assoluta.','Art. 24 — sicurezza reti e sistemi informativi','→ Kaplet: installazione NGFW urgente + progetto segmentazione rete.');
+  else if (d.fw==='basic') gap(netGaps,'warn','Firewall base senza IPS/IDS attivo','Un UTM datato non rileva ransomware, C2 traffic, lateral movement. L\'IPS aggiornato è requisito implicito per conformità NIS 2.','Art. 24 — sicurezza reti','→ Kaplet: upgrade a NGFW (Fortinet, Palo Alto, Sophos) con IPS e log management.');
+  else gap(netGaps,'ok','Firewall con protezione avanzata','Buona base. Verificare aggiornamento automatico firme, log retention 12+ mesi, revisione regole semestrale.','Art. 24 — conforme');
+
+  // VLAN
+  if (!d.vlan||d.vlan==='none') gap(netGaps,'crit','Rete piatta — nessuna segmentazione VLAN','Una telecamera IP, un player signage o un lettore badge compromesso può raggiungere direttamente i server aziendali. Il pivot attack è immediato. I sistemi di impianto devono essere isolati dalla rete dati.','Art. 24 — protezione sistemi e rete','→ Kaplet: progetto VLAN dedicata per VMS, ACS, AV, IoT, dati, management.');
+  else if (d.vlan==='partial') gap(netGaps,'warn','Segmentazione VLAN parziale','Completare la segmentazione includendo tutti i verticali: VLAN VMS, VLAN ACS, VLAN AV, VLAN IoT. Verificare ACL restrittivi tra segmenti.','Art. 24 — sicurezza reti','→ Kaplet: audit VLAN esistente + completamento segmentazione multi-verticale.');
+  else gap(netGaps,'ok','Segmentazione di rete presente','Conforme. Documentare il network design e revisionare le ACL ogni 6 mesi.','Art. 24 — conforme');
+
+  // Accesso remoto
+  if (d.remote==='open') gap(netGaps,'crit','RDP/VNC esposto su internet','Causa primaria #1 di ransomware. Bot automatizzati scansionano porta 3389 ogni ora. Da chiudere IMMEDIATAMENTE, prima di qualsiasi altro intervento.','Art. 24 — autenticazione e controllo accessi','→ Kaplet: blocco immediato + VPN con MFA. Priorità assoluta.');
+  else if (d.remote==='vpn') gap(netGaps,'crit','VPN senza MFA','Credenziali VPN rubate tramite phishing o credential stuffing danno accesso diretto alla rete. L\'Art. 24 comma 2 lett. i del D.Lgs. 138/2024 richiede esplicitamente l\'MFA.','Art. 24 comma 2 lett. i — MFA obbligatorio','→ Kaplet: abilitazione MFA sulla VPN esistente (TOTP, certificati, token HW).');
+  else if (d.remote==='vpn_mfa') gap(netGaps,'ok','VPN con MFA','Conforme Art. 24. Valutare evoluzione verso ZTNA per postura zero trust completa.','Art. 24 — conforme');
+  else gap(netGaps,'ok','ZTNA / Zero Trust Network Access','Eccellente postura. Verificare policy di accesso revisionate periodicamente e log centralizzati.','Art. 24 — conforme');
+
+  // Inventario
+  if (!d.inv||d.inv==='none') gap(netGaps,'crit','Nessun inventario asset di rete','Non si può proteggere ciò che non si conosce. NIS 2 richiede un inventario aggiornato di tutti i sistemi informativi e di rete, inclusi dispositivi di impianto (telecamere, NVR, centraline ACS, device AV).','Art. 24 — gestione asset','→ Kaplet: discovery network + inventario asset completo (rete, VMS, ACS, AV).');
+  else if (d.inv==='manual') gap(netGaps,'warn','Inventario manuale non aggiornato','Un inventario non aggiornato crea blind spot. Automatizzare con NAC o IPAM per avere visibilità in tempo reale di tutti i device connessi.','Art. 24 — gestione asset','→ Kaplet: implementazione NAC o discovery automatico.');
+  else gap(netGaps,'ok','Inventario asset presente e aggiornato','Conforme. Estendere il perimetro dell\'inventario a tutti i device di impianto.','Art. 24 — conforme');
+
+  // Logging
+  if (!d.log||d.log==='none') gap(netGaps,'crit','Nessun sistema di logging','Senza log è impossibile notificare il CSIRT Italia entro 24h (obbligo dal 1° gen 2026) e condurre analisi forense post-incidente. Blocco immediato alla compliance NIS 2.','Art. 25-26 — notifica CSIRT Italia','→ Kaplet: syslog server + log retention immediata. Valutare SIEM as a Service dal DOC.');
+  else if (d.log==='local') gap(netGaps,'warn','Log locali con retention insufficiente','I log locali possono essere cancellati dall\'attaccante. Centralizzare su sistema separato con retention 12+ mesi.','Art. 25 — gestione incidenti','→ Kaplet: centralizzazione log + retention 12 mesi.');
+  else if (d.log==='central') gap(netGaps,'ok','Log centralizzati con retention adeguata','Conforme. Valutare alerting automatico per eventi anomali.','Art. 25 — conforme');
+  else gap(netGaps,'ok','SIEM con alerting e correlazione','Ottima postura. Verificare che i tempi di risposta siano compatibili con notifica CSIRT entro 24h.','Art. 25-26 — conforme');
+
+  // Patch rete
+  if (!d.patch_net||d.patch_net==='none') gap(netGaps,'crit','Nessun patch management infrastruttura','Switch, AP, firewall non aggiornati hanno CVE pubbliche sfruttate attivamente. Il 60% delle violazioni usa vulnerabilità con patch disponibile.','Art. 24 — vulnerability management','→ Kaplet: definizione patch cycle infrastruttura + vulnerability scan.');
+  else if (d.patch_net==='manual') gap(netGaps,'warn','Aggiornamenti manuali e sporadici','Strutturare un patch cycle formale: settimanale per critici, mensile per gli altri. Includere tutti i device di impianto.','Art. 24 — vulnerability management','→ Kaplet: patch cycle documentato + strumento di scanning.');
+  else gap(netGaps,'ok','Patch management strutturato','Conforme. Includere nel perimetro i device di impianto: NVR, centraline ACS, device AV.','Art. 24 — conforme');
+
+  // ── VMS GAPS ─────────────────────────────────────────────────────────────
+  if (d.hasVms==='yes') {
+    if (!d.firm||d.firm==='unknown'||d.firm==='old') gap(vmsGaps,'crit','Firmware telecamere/NVR/encoder non aggiornato','Le CVE su IP camera sono pubbliche su NVD e sfruttate da bot automatizzati (Shodan, Censys). Firmware non aggiornato = backdoor documentata. Includi encoder, decoder, NVR nella revisione.','Art. 24 — vulnerability management','→ Kaplet: inventario firmware completo + piano aggiornamenti + iscrizione advisory vendor.');
+    else gap(vmsGaps,'ok','Firmware VMS aggiornato','Mantenere il ciclo e iscriversi agli advisory: Axis Security Notifications, Bosch PSIRT, Avigilon Bulletins.','Art. 24 — conforme');
+
+    if (d.vcreds==='default') gap(vmsGaps,'crit','Credenziali default attive (admin/admin, 12345…)','Questi device sono visibili su Shodan e attaccati ogni ora automaticamente. Gap #1 da correggere prima di qualsiasi altra misura. Verificare ogni telecamera, NVR, encoder, interfaccia web.','Art. 24 — controllo accessi','→ Kaplet: audit credenziali completo + reset con password policy robusta su ogni device.');
+    else if (d.vcreds==='shared') gap(vmsGaps,'warn','Password condivise tra operatori VMS','Nessuna accountability: chi ha modificato impostazioni? Chi ha esportato video? Creare account nominali con profilo minimo (least privilege) per ogni operatore.','Art. 24 — controllo accessi','→ Kaplet: creazione account nominali VMS + revisione profili di accesso.');
+    else if (d.vcreds==='personal') gap(vmsGaps,'info','Account nominali VMS senza MFA',"Per accesso remoto, MFA è fortemente consigliata. Disponibile in Axis, Avigilon, Milestone, Genetec.",'Art. 24 — autenticazione','→ Kaplet: abilitazione MFA sul VMS (verifica disponibilità per il vendor in uso).');
+    else gap(vmsGaps,'ok','Account nominali con MFA sul VMS','Ottima configurazione. Verificare log accessi centralizzati e revisione profili ogni 6 mesi.','Art. 24 — conforme');
+
+    if (d.vexp==='direct') gap(vmsGaps,'crit','VMS esposto direttamente su internet','Port forwarding e DDNS: il VMS è scansionato da Shodan ogni ora. Gli attaccanti testano automaticamente CVE note e credenziali deboli. Rimuovere immediatamente il port forwarding.','Art. 24 — sicurezza reti','→ Kaplet: rimozione port forwarding + VPN con MFA per accesso remoto VMS. Urgente.');
+    else if (d.vexp==='cloud') gap(vmsGaps,'info','Accesso VMS tramite cloud vendor','Verificare: crittografia, log accessi, localizzazione dati UE, SLA del vendor. Il cloud vendor va inserito nella supply chain security review NIS 2.','Art. 24 — supply chain','→ Kaplet: verifica contrattuale e tecnica del cloud vendor VMS.');
+    else if (d.vexp==='vpn') gap(vmsGaps,'ok','Accesso remoto VMS solo tramite VPN','Conforme. Verificare MFA sulla VPN e log di accesso al VMS da remoto.','Art. 24 — conforme');
+    else gap(vmsGaps,'ok','VMS non accessibile da remoto','Ottima postura. Verificare che non esistano accessi non documentati (hole punch, DDNS dimenticati).','Art. 24 — conforme');
+
+    if (d.vtech==='uncontrolled') gap(vmsGaps,'crit','Accesso tecnici/manutentori non controllato','I fornitori con accesso non controllato sono un vettore di attacco supply chain critico. Ogni accesso di manutenzione deve essere tracciato, temporaneo e revocato al termine dell\'intervento.','Art. 24 — supply chain e controllo accessi','→ Kaplet: implementazione credenziali temporanee + log accessi manutentori VMS.');
+    else if (d.vtech==='shared') gap(vmsGaps,'warn','Credenziali condivise con i tecnici','Creare account nominali per ogni fornitore con scadenza automatica. Revocare immediatamente al cambio fornitore.','Art. 24 — supply chain','→ Kaplet: creazione account nominali fornitori + procedura revoca.');
+    else gap(vmsGaps,'ok','Accesso tecnici tracciato e controllato','Conforme. Includere i log di accesso fornitori nel sistema centralizzato.','Art. 24 — conforme');
+
+    if (!d.vlog||d.vlog==='none') gap(vmsGaps,'warn','Nessun log accessi al VMS','Senza audit trail non è possibile sapere chi ha acceduto, chi ha esportato video, chi ha modificato impostazioni. Necessario per la notifica CSIRT.','Art. 25 — notifica incidenti','→ Kaplet: attivazione log accessi VMS + centralizzazione syslog.');
+    else if (d.vlog==='local') gap(vmsGaps,'info','Log VMS locali con retention breve','Centralizzare i log VMS su syslog esterno: se il sistema VMS viene compromesso, i log locali vengono persi.','Art. 25 — gestione incidenti','→ Kaplet: configurazione syslog output VMS verso sistema centralizzato.');
+    else gap(vmsGaps,'ok','Log VMS adeguati','Conforme. Verificare che i log includano: accessi operatori, export video, modifiche configurazione.','Art. 25 — conforme');
+
+    if (d.vloc==='exposed') gap(vmsGaps,'warn','Server VMS/NVR fisicamente non protetto','Un accesso fisico non autorizzato al server VMS o NVR compromette l\'intero impianto. Il server deve essere in armadio chiuso a chiave in area controllata.','Art. 24 — sicurezza fisica ambiente','→ Kaplet: valutazione sicurezza fisica sala server/rack VMS.');
+    else gap(vmsGaps,'ok','Server VMS/NVR in area protetta fisicamente','Conforme per la parte di sicurezza fisica.','Art. 24 — conforme');
+  }
+
+  // ── ACS GAPS ─────────────────────────────────────────────────────────────
+  if (d.hasAcs==='yes') {
+    if (d.acreds==='no_policy') gap(acsGaps,'crit','Badge mai revocati — nessuna policy di offboarding','Badge attivi di ex dipendenti, fornitori o visitatori sono accessi fisici non controllati. In ambienti con impianti critici questo equivale a una violazione della sicurezza fisica continuativa.','Art. 24 — sicurezza risorse umane e controllo accessi','→ Kaplet: audit badge attivi + procedura offboarding formale con revoca immediata.');
+    else if (d.acreds==='manual') gap(acsGaps,'warn','Revoca badge manuale e irregolare','Strutturare una procedura di onboarding/offboarding con revoca badge nel giorno di uscita. Integrare con HR per automatizzare.','Art. 24 — controllo accessi','→ Kaplet: formalizzazione procedura + valutazione integrazione ACS ↔ HR/AD.');
+    else if (d.acreds==='process') gap(acsGaps,'ok','Procedura offboarding definita','Conforme. Valutare automazione tramite integrazione con Active Directory o sistema HR.','Art. 24 — conforme');
+    else gap(acsGaps,'ok','Offboarding automatizzato — ACS integrato con HR/AD','Ottima postura. Verificare che la sincronizzazione funzioni correttamente con audit periodici.','Art. 24 — conforme');
+
+    if (d.asoft==='default') gap(acsGaps,'crit','Credenziali default sul software ACS','L\'interfaccia di gestione ACS con credenziali default è il vettore più semplice per disabilitare interi impianti. Verificare immediatamente ogni centralina, reader e interfaccia web.','Art. 24 — controllo accessi','→ Kaplet: audit credenziali ACS + reset immediato con password policy.');
+    else if (d.asoft==='personal') gap(acsGaps,'warn','Account nominali ACS senza MFA','MFA consigliata sull\'accesso alla piattaforma ACS, specialmente se accessibile da remoto.','Art. 24 — autenticazione','→ Kaplet: verifica disponibilità MFA sul software ACS in uso.');
+    else gap(acsGaps,'ok','Accesso ACS con account nominali e MFA','Conforme. Verificare RBAC e revisione periodica dei profili.','Art. 24 — conforme');
+
+    if (d.aexp==='direct') gap(acsGaps,'crit','Software ACS esposto su internet','Un sistema di controllo accessi esposto direttamente su internet è un target ad alto valore. La compromissione consente di aprire varchi, disabilitare allarmi, modificare profili di accesso.','Art. 24 — sicurezza reti','→ Kaplet: messa in sicurezza immediata + VPN per accesso remoto ACS.');
+    else if (d.aexp==='cloud') gap(acsGaps,'info','ACS su piattaforma cloud vendor','Verificare politiche di sicurezza del vendor, localizzazione dati UE, SLA, log accessi disponibili. Includere nella supply chain security review.','Art. 24 — supply chain','→ Kaplet: verifica contrattuale e tecnica del cloud vendor ACS.');
+    else gap(acsGaps,'ok','Accesso remoto ACS protetto','Conforme. Verificare log di accesso remoto centralizzati.','Art. 24 — conforme');
+
+    if (!d.afirm||d.afirm==='unknown'||d.afirm==='old') gap(acsGaps,'warn','Firmware centraline e lettori non aggiornato','CVE su lettori badge e centraline sono documentate. Firmware non aggiornato può consentire accesso fisico non autorizzato tramite exploit del reader.','Art. 24 — vulnerability management','→ Kaplet: inventario firmware ACS + piano aggiornamenti centraline e lettori.');
+    else gap(acsGaps,'ok','Firmware ACS aggiornato','Conforme. Includere i lettori nel patch cycle documentato.','Art. 24 — conforme');
+
+    if (!d.alog||d.alog==='none') gap(acsGaps,'warn','Nessun log eventi ACS','Senza log degli accessi fisici (ingressi, uscite, anomalie, allarmi) è impossibile ricostruire cosa è successo in caso di incidente fisico correlato.','Art. 25 — gestione incidenti','→ Kaplet: attivazione log ACS + centralizzazione sul SIEM.');
+    else if (d.alog==='local') gap(acsGaps,'info','Log ACS locali con retention breve','Centralizzare i log ACS per includerli nell\'analisi forense post-incidente e nella notifica CSIRT.','Art. 25 — incidenti','→ Kaplet: export log ACS verso sistema centralizzato.');
+    else gap(acsGaps,'ok','Log ACS adeguati e centralizzati','Conforme. Verificare correlazione con log VMS per visione completa degli eventi di sicurezza.','Art. 24-25 — conforme');
+
+    if (d.aint==='none') gap(acsGaps,'info','ACS e VMS non integrati','L\'integrazione ACS ↔ VMS consente correlazione eventi (badge + video) per risposta agli incidenti molto più efficace. Non è un obbligo NIS 2 ma è una best practice che migliora la capacità di risposta (Art. 25).','Art. 24-25 — raccomandazione','→ Kaplet: valutazione integrazione ACS ↔ VMS per correlazione eventi.');
+  }
+
+  // ── AV GAPS ──────────────────────────────────────────────────────────────
+  const hasAv = hasChip('av_aovip')||hasChip('av_signage')||hasChip('av_vc')||hasChip('av_ctrl')||hasChip('av_kvm')||hasChip('av_wall')||hasChip('av_uc');
+  if (hasAv) {
+    if (d.avcreds==='default') gap(avGaps,'crit','Credenziali default sui dispositivi AV/VC','Codec VC, player signage, controller sala con admin/admin sono visibili in rete e attaccabili. Spesso ignorati nei security review, hanno accesso alla rete e agli stream video.','Art. 24 — controllo accessi','→ Kaplet: audit credenziali AV/VC + reset con password policy su ogni device.');
+    else if (d.avcreds==='shared') gap(avGaps,'warn','Password condivise su dispositivi AV','Creare account nominali per ogni amministratore AV. Includere i device AV nel password management aziendale.','Art. 24 — controllo accessi','→ Kaplet: creazione account nominali AV + rotazione password.');
+    else gap(avGaps,'ok','Credenziali AV gestite correttamente','Conforme. Includere i device AV nella revisione periodica delle credenziali.','Art. 24 — conforme');
+
+    if (!d.avfirm||d.avfirm==='unknown'||d.avfirm==='old') gap(avGaps,'warn','Firmware dispositivi AV non aggiornato','Codec Cisco, Poly, Neat, controller Crestron, player signage: tutti hanno CVE documentate. Spesso l\'ultimo aggiornamento risale all\'installazione.','Art. 24 — vulnerability management','→ Kaplet: inventario firmware AV + piano aggiornamenti periodici.');
+    else gap(avGaps,'ok','Firmware AV aggiornato','Conforme. Mantenere il patch cycle includendo i device AV.','Art. 24 — conforme');
+
+    if (d.avnet==='flat') gap(avGaps,'warn','Dispositivi AV sulla stessa rete dei PC aziendali','Un player signage o un codec VC compromesso può effettuare network scanning verso i server. Creare una VLAN AV dedicata con ACL restrittivi.','Art. 24 — sicurezza reti','→ Kaplet: VLAN AV dedicata + ACL verso rete dati.');
+    else if (d.avnet==='partial') gap(avGaps,'info','Rete AV parzialmente separata','Completare la segmentazione con VLAN AV dedicata e ACL chiari verso le altre reti.','Art. 24 — sicurezza reti','→ Kaplet: completamento segmentazione VLAN AV.');
+    else gap(avGaps,'ok','VLAN AV dedicata e segmentata','Conforme. Verificare ACL tra VLAN AV e altre reti periodicamente.','Art. 24 — conforme');
+
+    if (d.avremote==='open') gap(avGaps,'warn','Accesso remoto AV non controllato','I fornitori AV con accesso non controllato possono accedere a dispositivi connessi alla rete. Implementare VPN o tool di remote support gestito con log degli accessi.','Art. 24 — supply chain e controllo accessi','→ Kaplet: implementazione accesso remoto controllato per manutentori AV.');
+    else gap(avGaps,'ok','Accesso remoto AV controllato','Conforme. Verificare log degli accessi dei manutentori AV.','Art. 24 — conforme');
+
+    if (hasChip('av_vc') || hasChip('av_uc')) {
+      if (d.vcenc==='no') gap(avGaps,'warn','Comunicazioni VC non cifrate','Le riunioni tramite videoconferenza non cifrate possono essere intercettate. NIS 2 richiede uso appropriato della crittografia (Art. 24 comma 2 lett. h).','Art. 24 comma 2 lett. h — crittografia','→ Kaplet: verifica cifratura end-to-end sui sistemi VC in uso.');
+      else if (d.vcenc==='partial') gap(avGaps,'info','Cifratura VC presente ma non verificata','Verificare che la cifratura sia effettivamente attiva e configurata correttamente su tutti i room system.','Art. 24 — crittografia','→ Kaplet: audit configurazione cifratura VC.');
+      else if (d.vcenc==='yes') gap(avGaps,'ok','Comunicazioni VC con cifratura end-to-end','Conforme Art. 24 comma 2 lett. h.','Art. 24 — conforme');
+    }
+  }
+
+  // ── GOVERNANCE GAPS ──────────────────────────────────────────────────────
+  if (!d.backup||d.backup==='none') gap(govGaps,'crit','Nessun backup','Ransomware senza backup = perdita totale dati + interruzione servizio. Art. 24 richiede backup, DR e gestione crisi come misura minima.','Art. 24 comma 2 lett. c — continuità operativa, backup, DR','→ Kaplet: strategia backup 3-2-1 + primo test di ripristino.');
+  else if (d.backup==='local') gap(govGaps,'warn','Backup solo locale — non testato','I backup locali vengono cifrati dal ransomware insieme ai dati. Necessario offsite o cloud + test semestrale.','Art. 24 — continuità operativa','→ Kaplet: backup offsite + piano test ripristino.');
+  else if (d.backup==='offsite') gap(govGaps,'info','Backup offsite senza DR plan documentato','Il backup esiste ma manca un DR plan con RTO/RPO definiti e testati.','Art. 24 — DR e gestione crisi','→ Kaplet: stesura DR plan + tabletop exercise.');
+  else gap(govGaps,'ok','Backup + DR plan documentato e testato','Conforme Art. 24.','Art. 24 — conforme');
+
+  if (!d.incident||d.incident==='none') gap(govGaps,'crit','Nessuna procedura di gestione incidenti','Dal 1° gennaio 2026 NIS 2 impone pre-notifica CSIRT Italia entro 24h. Senza IRP documentato la notifica è impossibile e le sanzioni certe.','Art. 25-26 D.Lgs. 138/2024 — notifica obbligatoria CSIRT Italia','→ Kaplet: stesura IRP base + designazione Referente CSIRT (scadenza 31/12/2025).');
+  else if (d.incident==='informal') gap(govGaps,'warn','Gestione incidenti informale','Formalizzare con: ruoli, escalation, template notifica ACN/CSIRT, criteri per determinare la significatività dell\'incidente.','Art. 25 — notifica CSIRT entro 24h','→ Kaplet: formalizzazione IRP + workshop referente CSIRT.');
+  else if (d.incident==='irp') gap(govGaps,'info','IRP documentato — referente CSIRT non designato','Il D.Lgs. 138/2024 richiede designazione formale del referente per la cybersicurezza entro 31/12/2025.','Art. 25 — designazione referente','→ Designare il referente CSIRT e aggiornare la registrazione ACN.');
+  else gap(govGaps,'ok','IRP + referente CSIRT designato','Conforme Art. 25-26. Eseguire tabletop exercise periodiche.','Art. 25-26 — conforme');
+
+  // ── FORMAZIONE ── Art. 24 comma 2 lett. g
+  if (!d.training||d.training==='none') gap(govGaps,'warn','Nessuna formazione cybersecurity del personale','Il fattore umano causa il 70%+ degli incidenti. NIS 2 richiede esplicitamente pratiche di igiene informatica e formazione continua di tutto il personale. Senza formazione, le misure tecniche vengono vanificate da un solo click su un link di phishing.','Art. 24 comma 2 lett. g — igiene informatica e formazione','→ Kaplet: piano formativo NIS 2 awareness + phishing simulation per il personale.');
+  else if (d.training==='occasional') gap(govGaps,'info','Formazione occasionale e non strutturata','Strutturare un piano annuale documentato con attestati di partecipazione. Documentare i partecipanti per dimostrare compliance ad ACN.','Art. 24 — formazione','→ Kaplet: piano formativo annuale con attestati e documentazione compliance.');
+  else gap(govGaps,'ok','Formazione cybersecurity strutturata','Conforme Art. 24 lett. g. Aggiornare i contenuti ogni anno in base alle nuove minacce.','Art. 24 lett. g — conforme');
+
+  // ── CRITTOGRAFIA ── Art. 24 comma 2 lett. h
+  if (!d.crypto||d.crypto==='none') gap(govGaps,'crit','Nessuna cifratura — dati in chiaro','Dati trasmessi e archiviati in chiaro sono intercettabili e accessibili in caso di compromissione. NIS 2 richiede uso appropriato della crittografia come misura minima obbligatoria. Le registrazioni VMS e i log ACS contengono dati sensibili.','Art. 24 comma 2 lett. h — crittografia','→ Kaplet: implementazione TLS su tutti i flussi + cifratura storage NVR, server VMS e ACS.');
+  else if (d.crypto==='partial') gap(govGaps,'warn','Cifratura solo parziale','Completare: cifrare anche i dati a riposo (storage NVR, server VMS, database ACS, backup). Le registrazioni video e i log di accesso fisico richiedono protezione specifica.','Art. 24 lett. h — crittografia','→ Kaplet: estensione cifratura a dati a riposo su tutti i sistemi di impianto.');
+  else if (d.crypto==='transit') gap(govGaps,'info','Dati in transito cifrati, dati a riposo no','Aggiungere cifratura storage per le registrazioni VMS, i database ACS e i backup. Critico per soggetti essenziali.','Art. 24 lett. h — crittografia','→ Kaplet: cifratura disco NVR/server VMS + verifica backup cifrati.');
+  else gap(govGaps,'ok','Cifratura completa in transito e a riposo','Conforme Art. 24 comma 2 lett. h. Verificare che i certificati siano aggiornati periodicamente.','Art. 24 lett. h — conforme');
+
+  // ── SUPPLY CHAIN ICT ── Art. 24 comma 2 lett. d
+  if (!d.supplychain||d.supplychain==='none') gap(govGaps,'warn','Fornitori ICT e di impianto non valutati','Chi gestisce il VMS da remoto, chi aggiorna il firmware, chi mantiene le centraline ACS: tutti potenziali vettori di attacco supply chain. NIS 2 impone di valutarne le pratiche di sicurezza.','Art. 24 comma 2 lett. d — sicurezza supply chain','→ Kaplet: questionario sicurezza fornitori chiave + clausole contrattuali NIS 2.');
+  else if (d.supplychain==='contract') gap(govGaps,'info','Solo clausole contrattuali generiche','Le clausole generiche non bastano. Raccogliere evidenze concrete: certificazioni ISO 27001, SOC 2, questionari specifici per i fornitori che accedono agli impianti.','Art. 24 lett. d — supply chain','→ Kaplet: implementazione questionario tecnico fornitori + raccolta evidenze.');
+  else gap(govGaps,'ok','Valutazione fornitori strutturata','Conforme Art. 24 lett. d. Aggiornare le valutazioni ad ogni cambio fornitore critico.','Art. 24 lett. d — conforme');
+
+  // ── RESPONSABILITÀ CDA ── Art. 23 D.Lgs. 138/2024
+  if (!d.cda||d.cda==='unaware') gap(govGaps,'crit','CDA non informato — responsabilità personale a rischio','Art. 23 D.Lgs. 138/2024: responsabilità diretta e personale degli organi di amministrazione. In caso di sanzione NIS 2, gli amministratori rispondono personalmente. Un CDA non informato è già inadempiente.','Art. 23 D.Lgs. 138/2024 — responsabilità personale organi direttivi','→ Kaplet: briefing urgente al CDA sugli obblighi NIS 2 e le responsabilità personali degli amministratori.');
+  else if (d.cda==='partial') gap(govGaps,'warn','CDA informato ma senza piano approvato formalmente',"La conoscenza non basta: Art. 23 richiede supervisione attiva dell’implementazione da parte degli organi direttivi. Serve un piano formalmente approvato.",'Art. 23 — responsabilità organi direttivi','→ Kaplet: supporto nella predisposizione del piano NIS 2 da portare in approvazione al CDA.');
+  else if (d.cda==='approved') gap(govGaps,'ok','CDA ha approvato formalmente il piano NIS 2','Buona postura governance. Documentare i verbali e prevedere un meccanismo di reporting periodico al CDA.','Art. 23 — conforme');
+  else gap(govGaps,'ok','CDA supervisiona attivamente l\'implementazione NIS 2','Ottima governance. Conforme Art. 23. Documentare i verbali delle riunioni dove NIS 2 è trattato.','Art. 23 — conforme');
+
+  // ── RENDER ───────────────────────────────────────────────────────────────
+  document.getElementById('progWrap').style.display = 'none';
+  document.getElementById('s5').classList.remove('on');
+  document.getElementById('results').style.display = 'block';
+
+  const sectorLabel = document.getElementById('sector').options[document.getElementById('sector').selectedIndex]?.text||'';
+  document.getElementById('rCompany').textContent = d.company.toUpperCase() + (sectorLabel ? ' · ' + sectorLabel.replace(/^─+\s*/,'') : '');
+  document.getElementById('rBadge').innerHTML = `<div class="nis2badge ${bMap[cls]}">${badge}</div>`;
+  document.getElementById('rDesc').textContent = desc;
+
+  // score
+  const allGaps = [...netGaps,...vmsGaps,...acsGaps,...avGaps,...govGaps];
+  const nCrit = allGaps.filter(g=>g.prio==='crit').length;
+  const nWarn = allGaps.filter(g=>g.prio==='warn'||g.prio==='info').length;
+  const nOk   = allGaps.filter(g=>g.prio==='ok').length;
+  document.getElementById('sCrit').textContent = nCrit;
+  document.getElementById('sWarn').textContent = nWarn;
+  document.getElementById('sOk').textContent   = nOk;
+
+  function renderGaps(arr, containerId, secId) {
+    if (!arr.length) return;
+    document.getElementById(secId).style.display = '';
+    const prioMap = {
+      crit:{cls:'r',label:'CRITICO'},
+      warn:{cls:'y',label:'ALTO'},
+      info:{cls:'b',label:'MEDIO'},
+      ok:  {cls:'g',label:'OK'}
+    };
+    document.getElementById(containerId).innerHTML = arr.map(g => {
+      const p = prioMap[g.prio]||prioMap.ok;
+      return `<div class="gi">
+        <div class="gacc ${p.cls}"></div>
+        <div class="gbody">
+          <div class="gprio ${p.cls}">${p.label}</div>
+          <div class="gtitle">${g.title}</div>
+          <div class="gdesc">${g.desc}</div>
+          <div class="gart">📎 ${g.art}</div>
+          ${g.action?`<div class="gact">${g.action}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  renderGaps(netGaps,'g-net','sec-net');
+  renderGaps(vmsGaps,'g-vms','sec-vms');
+  renderGaps(acsGaps,'g-acs','sec-acs');
+  renderGaps(avGaps,'g-av','sec-av');
+  renderGaps(govGaps,'g-gov','sec-gov');
+
+  // next steps
+  let next = '';
+  if (nCrit >= 4) next = `Con ${nCrit} criticità immediate distribuite sui verticali, il percorso consigliato è partire da un Audit & Assessment completo (Kaplet DESIGN) per avere una fotografia precisa dell'intera infrastruttura — rete, VMS, ACS e AV — con roadmap prioritizzata. In parallelo, gli interventi urgenti (firewall, credenziali default, accesso remoto esposto) vengono avviati subito nella fase BUILD. Il monitoring continuativo dal DOC Kaplet garantisce la compliance operativa NIS 2 dal 1° gennaio 2026.`;
+  else if (nCrit > 0) next = `Ci sono ${nCrit} aree critiche che richiedono intervento immediato. Kaplet può supportare con un percorso mirato (DESIGN + BUILD) sulle vulnerabilità prioritarie, strutturando poi il completamento verso la conformità NIS 2 entro ottobre 2026.`;
+  else next = `La postura di sicurezza è buona su tutti i verticali. Il passo naturale è strutturare la governance NIS 2 (referente CSIRT, IRP, supply chain review) e attivare il monitoring continuativo dal Digital Operation Center Kaplet per garantire la compliance a lungo termine.`;
+
+  document.getElementById('rNext').textContent = next;
+
+  // PROPOSTA COMMERCIALE AUTOMATICA
+  let pacchetto = '', inclusi = [], colore = '';
+
+  if (nCrit >= 6) {
+    pacchetto = 'NIS 2 Complete';
+    colore = 'var(--red)';
+    inclusi = [
+      'Gap analysis completa 3 verticali',
+      'NGFW o upgrade firewall urgente',
+      'Segmentazione VLAN multi-verticale (VMS, ACS, AV, IoT)',
+      'VPN con MFA + bonifica accessi esposti',
+      'Hardening credenziali VMS, ACS, AV e infrastruttura',
+      'SIEM as a Service dal DOC Kaplet',
+      'IRP documentato + designazione referente CSIRT',
+      'Formazione NIS 2 awareness personale',
+      'Supply chain review fornitori ICT e di impianto'
+    ];
+  } else if (nCrit >= 3) {
+    pacchetto = 'NIS 2 Essential';
+    colore = 'var(--yellow)';
+    inclusi = [
+      'Gap analysis completa 3 verticali',
+      'NGFW o upgrade firewall',
+      'Segmentazione VLAN (VMS, ACS, AV)',
+      'VPN con MFA',
+      'Hardening credenziali VMS e ACS',
+      'Log centralizzati 12 mesi'
+    ];
+  } else if (nCrit >= 1) {
+    pacchetto = 'NIS 2 Starter';
+    colore = 'var(--blue)';
+    inclusi = [
+      'Gap analysis completa 3 verticali',
+      'Bonifica gap critici urgenti (credenziali, accesso remoto)',
+      'Documento di compliance base per il CDA'
+    ];
+  } else {
+    pacchetto = 'NIS 2 Managed';
+    colore = 'var(--teal)';
+    inclusi = [
+      'Monitoring 24/7 dal DOC Kaplet',
+      'Vulnerability scan trimestrale',
+      'Report direzionale NIS 2 semestrale',
+      'Supporto notifica CSIRT in caso di incidente'
+    ];
+  }
+
+  const propostaEl = document.getElementById('rProposta');
+  if (propostaEl) {
+    let righeInclusi = inclusi.map(function(i) {
+      return '<div style="font-size:12px;color:var(--gray);padding:6px 0;border-bottom:1px solid var(--border);display:flex;gap:10px"><span style="color:' + colore + ';flex-shrink:0">→</span>' + i + '</div>';
+    }).join('');
+
+    propostaEl.innerHTML =
+      '<div style="display:flex;align-items:baseline;gap:16px;margin-bottom:16px;flex-wrap:wrap">' +
+        '<div style="font-size:22px;font-weight:700;color:' + colore + '">' + pacchetto + '</div>' +
+        // valore rimosso
+        // label rimossa
+      '</div>' +
+      '<div style="font-size:10px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">_cosa include</div>' +
+      righeInclusi +
+      '<div style="margin-top:16px;font-size:11px;color:var(--dim);font-style:italic">Valore indicativo. Il costo del sopralluogo tecnico viene scalato dalla proposta finale.</div>';
+  }
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── RESET ──────────────────────────────────────────────────────────────────
+function resetAll() {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('progWrap').style.display = '';
+  document.querySelectorAll('.ri').forEach(el=>el.classList.remove('s'));
+  document.querySelectorAll('.chip').forEach(el=>el.classList.remove('s'));
+  Object.keys(chipState).forEach(k=>delete chipState[k]);
+  document.getElementById('company').value = '';
+  document.getElementById('sector').value = '';
+  document.getElementById('notes').value = '';
+  document.getElementById('agent').value = '';
+  ['vmsBlock','acsBlock'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display='';
+  });
+  ['sec-net','sec-vms','sec-acs','sec-av','sec-gov'].forEach(id=>{
+    document.getElementById(id).style.display='none';
+  });
+  for(let i=1;i<=TOTAL;i++) document.getElementById('s'+i).classList.remove('on');
+  cur=1;
+  document.getElementById('s1').classList.add('on');
+  renderProg();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// init
+renderProg();
+</script>
+</body>
+</html>
