@@ -167,6 +167,30 @@ textarea:focus{color:var(--white)}
 .btn-reset{width:100%;background:transparent;border:1px solid var(--border);color:var(--dim);padding:13px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:12.5px;margin-top:22px;transition:all .2s;letter-spacing:.5px}
 .btn-reset:hover{border-color:var(--dim);color:var(--white)}
 
+.pdf-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
+.pdf-btn{
+  background:var(--green);
+  color:var(--black);
+  border:1px solid var(--green);
+  padding:13px 18px;
+  border-radius:3px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:.5px;
+  transition:all .2s;
+}
+.pdf-btn:hover{background:#60f094;transform:translateY(-1px)}
+.pdf-export{
+  background:var(--black)!important;
+  color:var(--white)!important;
+}
+.pdf-export *{
+  -webkit-print-color-adjust:exact!important;
+  print-color-adjust:exact!important;
+}
+
 /* hide logic */
 .hidden{display:none!important}
 
@@ -193,9 +217,6 @@ textarea:focus{color:var(--white)}
 
 <div class="wrap">
 
-<!-- ════════════════════════════════════════════════════════
-     STEP 1 – ANAGRAFICA
-════════════════════════════════════════════════════════ -->
 <div class="card on" id="s1">
   <div class="vtag">_01 / anagrafica cliente</div>
   <div class="ctitle">Chi è <strong>il cliente?</strong></div>
@@ -273,9 +294,6 @@ textarea:focus{color:var(--white)}
   <div class="nav"><div></div><button class="btn btn-next" onclick="go(2)">Avanti →</button></div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     STEP 2 – NETWORKING
-════════════════════════════════════════════════════════ -->
 <div class="card" id="s2">
   <div class="vtag">_02 / networking</div>
   <div class="ctitle">Infrastruttura di <strong>rete</strong></div>
@@ -348,9 +366,6 @@ textarea:focus{color:var(--white)}
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     STEP 3 – SECURITY: VMS + VIDEOSORVEGLIANZA
-════════════════════════════════════════════════════════ -->
 <div class="card" id="s3">
   <div class="vtag">_03 / security — videosorveglianza & VMS</div>
   <div class="ctitle">Telecamere IP, encoder<br>e <strong>sistemi VMS</strong></div>
@@ -467,7 +482,7 @@ textarea:focus{color:var(--white)}
         <label class="ri" onclick="pick('vloc','cloud')"><input type="radio" name="vloc" value="cloud"><div class="dot"></div>Soluzione cloud / hosted</label>
       </div>
     </div>
-  </div><!-- /vmsBlock -->
+  </div>
 
   <div class="nav">
     <button class="btn btn-back" onclick="go(2)">← Indietro</button>
@@ -475,9 +490,6 @@ textarea:focus{color:var(--white)}
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     STEP 4 – CONTROLLO ACCESSI
-════════════════════════════════════════════════════════ -->
 <div class="card" id="s4">
   <div class="vtag">_04 / security — controllo accessi</div>
   <div class="ctitle">Sistemi di <strong>controllo accessi</strong></div>
@@ -565,7 +577,7 @@ textarea:focus{color:var(--white)}
         <label class="ri" onclick="pick('alog','central')"><input type="radio" name="alog" value="central"><div class="dot"></div>Log centralizzati nel SIEM</label>
       </div>
     </div>
-  </div><!-- /acsBlock -->
+  </div>
 
   <div class="nav">
     <button class="btn btn-back" onclick="go(3)">← Indietro</button>
@@ -573,9 +585,6 @@ textarea:focus{color:var(--white)}
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     STEP 5 – AUDIO / VIDEO
-════════════════════════════════════════════════════════ -->
 <div class="card" id="s5">
   <div class="vtag">_05 / audio video & unified communication</div>
   <div class="ctitle">Ecosistema <strong>AV, VC e sale</strong></div>
@@ -721,9 +730,6 @@ textarea:focus{color:var(--white)}
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     RESULTS
-════════════════════════════════════════════════════════ -->
 <div id="results">
   <div class="res-tag">_report nis 2 assessment</div>
   <div class="res-title">Gap Analysis<br><strong>NIS 2</strong></div>
@@ -737,7 +743,6 @@ textarea:focus{color:var(--white)}
     <div class="sbox g"><div class="snum" id="sOk">0</div><div class="slabel">Conformi</div></div>
   </div>
 
-  <!-- vertical sections in report -->
   <div class="vsec" id="sec-net" style="display:none">
     <div class="vsec-header b">_networking</div>
     <div id="g-net"></div>
@@ -764,24 +769,86 @@ textarea:focus{color:var(--white)}
     <div class="nbox-body" id="rNext"></div>
   </div>
 
-  <!-- PROPOSTA COMMERCIALE -->
   <div style="margin-top:24px;border:1px solid var(--border);border-radius:3px;padding:22px">
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:16px">_proposta commerciale consigliata</div>
     <div id="rProposta"></div>
   </div>
 
+  <div class="pdf-actions">
+    <button class="pdf-btn" onclick="savePDF()">Salva PDF</button>
+  </div>
+
   <button class="btn-reset" onclick="resetAll()">↩ Nuova analisi</button>
 </div>
 
-</div><!-- /wrap -->
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-// ── STATE ──────────────────────────────────────────────────────────────────
 let cur = 1;
 const TOTAL = 5;
 const STEP_LABELS = ['_anagrafica','_networking','_security VMS','_ctrl accessi','_audio video'];
 
-// ── PROGRESS ───────────────────────────────────────────────────────────────
+function savePDF() {
+  const target = document.getElementById('results');
+  if (!target) return;
+
+  const companyInput = document.getElementById('company');
+  const companyName = companyInput && companyInput.value
+    ? companyInput.value.trim()
+    : 'assessment';
+
+  const safeName = companyName
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    || 'assessment';
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+
+  const fileName = `NIS2-${safeName}-${yyyy}-${mm}-${dd}.pdf`;
+
+  const oldDisplay = target.style.display;
+  target.style.display = 'block';
+  target.classList.add('pdf-export');
+
+  const opt = {
+    margin: [0.3, 0.3, 0.3, 0.3],
+    filename: fileName,
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#000000',
+      scrollX: 0,
+      scrollY: 0
+    },
+    jsPDF: {
+      unit: 'in',
+      format: 'a4',
+      orientation: 'portrait'
+    },
+    pagebreak: {
+      mode: ['css', 'legacy']
+    }
+  };
+
+  html2pdf().set(opt).from(target).save()
+    .then(() => {
+      target.classList.remove('pdf-export');
+      target.style.display = oldDisplay;
+    })
+    .catch(() => {
+      target.classList.remove('pdf-export');
+      target.style.display = oldDisplay;
+    });
+}
+
 function renderProg() {
   document.getElementById('progSteps').innerHTML = STEP_LABELS.map((l, i) => {
     const n = i + 1;
@@ -800,7 +867,6 @@ function go(n) {
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-// ── RADIO ──────────────────────────────────────────────────────────────────
 function pick(name, val) {
   document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
     el.closest('.ri').classList.remove('s');
@@ -814,7 +880,6 @@ function gv(name) {
   return el ? el.value : null;
 }
 
-// ── CHIPS ──────────────────────────────────────────────────────────────────
 const chipState = {};
 function toggleChip(el, key) {
   chipState[key] = !chipState[key];
@@ -822,36 +887,28 @@ function toggleChip(el, key) {
 }
 function hasChip(key) { return !!chipState[key]; }
 
-// ── SHOW/HIDE ──────────────────────────────────────────────────────────────
 function showEl(id, show) {
   document.getElementById(id).style.display = show ? '' : 'none';
 }
 
-// ── ANALYSIS ───────────────────────────────────────────────────────────────
 function runAnalysis() {
   const d = {
     company: document.getElementById('company').value || 'Cliente',
     sector: document.getElementById('sector').value,
     emp: gv('emp'), rev: gv('rev'),
-    // networking
     fw: gv('fw'), vlan: gv('vlan'), remote: gv('remote'),
     inv: gv('inv'), log: gv('log'), patch_net: gv('patch_net'),
-    // vms
     hasVms: gv('hasVms'), firm: gv('firm'), vcreds: gv('vcreds'),
     vexp: gv('vexp'), vtech: gv('vtech'), vlog: gv('vlog'), vloc: gv('vloc'),
-    // acs
     hasAcs: gv('hasAcs'), acreds: gv('acreds'), asoft: gv('asoft'),
     aexp: gv('aexp'), afirm: gv('afirm'), aint: gv('aint'), alog: gv('alog'),
-    // av
     avcreds: gv('avcreds'), avfirm: gv('avfirm'), avnet: gv('avnet'),
     avremote: gv('avremote'), vcenc: gv('vcenc'),
-    // governance
     backup: gv('backup'), incident: gv('incident'),
     training: gv('training'), crypto: gv('crypto'),
     supplychain: gv('supplychain'), cda: gv('cda'),
   };
 
-  // ── NIS2 Classification ──────────────────────────────────────────────────
   const ESS = ['energy','transport','banking','health','water_d','water_w','digital','ict','space','pa_c'];
   const IMP = ['postal','waste','chem','food','med','it_mfg','elec','auto','dig_mkt','research','pa_l'];
   const medPlus = ['medium','large'].includes(d.emp);
@@ -877,48 +934,38 @@ function runAnalysis() {
 
   const bMap = {essential:'b-ess', important:'b-imp', verify:'b-ver', outside:'b-out'};
 
-  // ── GAP COLLECTIONS ──────────────────────────────────────────────────────
   const netGaps=[], vmsGaps=[], acsGaps=[], avGaps=[], govGaps=[];
 
-  // helper
   function gap(arr, prio, title, desc, art, action='') {
     arr.push({prio, title, desc, art, action});
   }
 
-  // ── NETWORKING GAPS ──────────────────────────────────────────────────────
-  // Firewall
   if (!d.fw||d.fw==='none') gap(netGaps,'crit','Nessun firewall perimetrale','Qualsiasi dispositivo in rete (telecamera, switch, NVR, player signage) è raggiungibile dall\'esterno senza filtro. Vulnerabilità assoluta.','Art. 24 — sicurezza reti e sistemi informativi','→ Kaplet: installazione NGFW urgente + progetto segmentazione rete.');
   else if (d.fw==='basic') gap(netGaps,'warn','Firewall base senza IPS/IDS attivo','Un UTM datato non rileva ransomware, C2 traffic, lateral movement. L\'IPS aggiornato è requisito implicito per conformità NIS 2.','Art. 24 — sicurezza reti','→ Kaplet: upgrade a NGFW (Fortinet, Palo Alto, Sophos) con IPS e log management.');
   else gap(netGaps,'ok','Firewall con protezione avanzata','Buona base. Verificare aggiornamento automatico firme, log retention 12+ mesi, revisione regole semestrale.','Art. 24 — conforme');
 
-  // VLAN
   if (!d.vlan||d.vlan==='none') gap(netGaps,'crit','Rete piatta — nessuna segmentazione VLAN','Una telecamera IP, un player signage o un lettore badge compromesso può raggiungere direttamente i server aziendali. Il pivot attack è immediato. I sistemi di impianto devono essere isolati dalla rete dati.','Art. 24 — protezione sistemi e rete','→ Kaplet: progetto VLAN dedicata per VMS, ACS, AV, IoT, dati, management.');
   else if (d.vlan==='partial') gap(netGaps,'warn','Segmentazione VLAN parziale','Completare la segmentazione includendo tutti i verticali: VLAN VMS, VLAN ACS, VLAN AV, VLAN IoT. Verificare ACL restrittivi tra segmenti.','Art. 24 — sicurezza reti','→ Kaplet: audit VLAN esistente + completamento segmentazione multi-verticale.');
   else gap(netGaps,'ok','Segmentazione di rete presente','Conforme. Documentare il network design e revisionare le ACL ogni 6 mesi.','Art. 24 — conforme');
 
-  // Accesso remoto
   if (d.remote==='open') gap(netGaps,'crit','RDP/VNC esposto su internet','Causa primaria #1 di ransomware. Bot automatizzati scansionano porta 3389 ogni ora. Da chiudere IMMEDIATAMENTE, prima di qualsiasi altro intervento.','Art. 24 — autenticazione e controllo accessi','→ Kaplet: blocco immediato + VPN con MFA. Priorità assoluta.');
   else if (d.remote==='vpn') gap(netGaps,'crit','VPN senza MFA','Credenziali VPN rubate tramite phishing o credential stuffing danno accesso diretto alla rete. L\'Art. 24 comma 2 lett. i del D.Lgs. 138/2024 richiede esplicitamente l\'MFA.','Art. 24 comma 2 lett. i — MFA obbligatorio','→ Kaplet: abilitazione MFA sulla VPN esistente (TOTP, certificati, token HW).');
   else if (d.remote==='vpn_mfa') gap(netGaps,'ok','VPN con MFA','Conforme Art. 24. Valutare evoluzione verso ZTNA per postura zero trust completa.','Art. 24 — conforme');
   else gap(netGaps,'ok','ZTNA / Zero Trust Network Access','Eccellente postura. Verificare policy di accesso revisionate periodicamente e log centralizzati.','Art. 24 — conforme');
 
-  // Inventario
   if (!d.inv||d.inv==='none') gap(netGaps,'crit','Nessun inventario asset di rete','Non si può proteggere ciò che non si conosce. NIS 2 richiede un inventario aggiornato di tutti i sistemi informativi e di rete, inclusi dispositivi di impianto (telecamere, NVR, centraline ACS, device AV).','Art. 24 — gestione asset','→ Kaplet: discovery network + inventario asset completo (rete, VMS, ACS, AV).');
   else if (d.inv==='manual') gap(netGaps,'warn','Inventario manuale non aggiornato','Un inventario non aggiornato crea blind spot. Automatizzare con NAC o IPAM per avere visibilità in tempo reale di tutti i device connessi.','Art. 24 — gestione asset','→ Kaplet: implementazione NAC o discovery automatico.');
   else gap(netGaps,'ok','Inventario asset presente e aggiornato','Conforme. Estendere il perimetro dell\'inventario a tutti i device di impianto.','Art. 24 — conforme');
 
-  // Logging
   if (!d.log||d.log==='none') gap(netGaps,'crit','Nessun sistema di logging','Senza log è impossibile notificare il CSIRT Italia entro 24h (obbligo dal 1° gen 2026) e condurre analisi forense post-incidente. Blocco immediato alla compliance NIS 2.','Art. 25-26 — notifica CSIRT Italia','→ Kaplet: syslog server + log retention immediata. Valutare SIEM as a Service dal DOC.');
   else if (d.log==='local') gap(netGaps,'warn','Log locali con retention insufficiente','I log locali possono essere cancellati dall\'attaccante. Centralizzare su sistema separato con retention 12+ mesi.','Art. 25 — gestione incidenti','→ Kaplet: centralizzazione log + retention 12 mesi.');
   else if (d.log==='central') gap(netGaps,'ok','Log centralizzati con retention adeguata','Conforme. Valutare alerting automatico per eventi anomali.','Art. 25 — conforme');
   else gap(netGaps,'ok','SIEM con alerting e correlazione','Ottima postura. Verificare che i tempi di risposta siano compatibili con notifica CSIRT entro 24h.','Art. 25-26 — conforme');
 
-  // Patch rete
   if (!d.patch_net||d.patch_net==='none') gap(netGaps,'crit','Nessun patch management infrastruttura','Switch, AP, firewall non aggiornati hanno CVE pubbliche sfruttate attivamente. Il 60% delle violazioni usa vulnerabilità con patch disponibile.','Art. 24 — vulnerability management','→ Kaplet: definizione patch cycle infrastruttura + vulnerability scan.');
   else if (d.patch_net==='manual') gap(netGaps,'warn','Aggiornamenti manuali e sporadici','Strutturare un patch cycle formale: settimanale per critici, mensile per gli altri. Includere tutti i device di impianto.','Art. 24 — vulnerability management','→ Kaplet: patch cycle documentato + strumento di scanning.');
   else gap(netGaps,'ok','Patch management strutturato','Conforme. Includere nel perimetro i device di impianto: NVR, centraline ACS, device AV.','Art. 24 — conforme');
 
-  // ── VMS GAPS ─────────────────────────────────────────────────────────────
   if (d.hasVms==='yes') {
     if (!d.firm||d.firm==='unknown'||d.firm==='old') gap(vmsGaps,'crit','Firmware telecamere/NVR/encoder non aggiornato','Le CVE su IP camera sono pubbliche su NVD e sfruttate da bot automatizzati (Shodan, Censys). Firmware non aggiornato = backdoor documentata. Includi encoder, decoder, NVR nella revisione.','Art. 24 — vulnerability management','→ Kaplet: inventario firmware completo + piano aggiornamenti + iscrizione advisory vendor.');
     else gap(vmsGaps,'ok','Firmware VMS aggiornato','Mantenere il ciclo e iscriversi agli advisory: Axis Security Notifications, Bosch PSIRT, Avigilon Bulletins.','Art. 24 — conforme');
@@ -945,7 +992,6 @@ function runAnalysis() {
     else gap(vmsGaps,'ok','Server VMS/NVR in area protetta fisicamente','Conforme per la parte di sicurezza fisica.','Art. 24 — conforme');
   }
 
-  // ── ACS GAPS ─────────────────────────────────────────────────────────────
   if (d.hasAcs==='yes') {
     if (d.acreds==='no_policy') gap(acsGaps,'crit','Badge mai revocati — nessuna policy di offboarding','Badge attivi di ex dipendenti, fornitori o visitatori sono accessi fisici non controllati. In ambienti con impianti critici questo equivale a una violazione della sicurezza fisica continuativa.','Art. 24 — sicurezza risorse umane e controllo accessi','→ Kaplet: audit badge attivi + procedura offboarding formale con revoca immediata.');
     else if (d.acreds==='manual') gap(acsGaps,'warn','Revoca badge manuale e irregolare','Strutturare una procedura di onboarding/offboarding con revoca badge nel giorno di uscita. Integrare con HR per automatizzare.','Art. 24 — controllo accessi','→ Kaplet: formalizzazione procedura + valutazione integrazione ACS ↔ HR/AD.');
@@ -970,7 +1016,6 @@ function runAnalysis() {
     if (d.aint==='none') gap(acsGaps,'info','ACS e VMS non integrati','L\'integrazione ACS ↔ VMS consente correlazione eventi (badge + video) per risposta agli incidenti molto più efficace. Non è un obbligo NIS 2 ma è una best practice che migliora la capacità di risposta (Art. 25).','Art. 24-25 — raccomandazione','→ Kaplet: valutazione integrazione ACS ↔ VMS per correlazione eventi.');
   }
 
-  // ── AV GAPS ──────────────────────────────────────────────────────────────
   const hasAv = hasChip('av_aovip')||hasChip('av_signage')||hasChip('av_vc')||hasChip('av_ctrl')||hasChip('av_kvm')||hasChip('av_wall')||hasChip('av_uc');
   if (hasAv) {
     if (d.avcreds==='default') gap(avGaps,'crit','Credenziali default sui dispositivi AV/VC','Codec VC, player signage, controller sala con admin/admin sono visibili in rete e attaccabili. Spesso ignorati nei security review, hanno accesso alla rete e agli stream video.','Art. 24 — controllo accessi','→ Kaplet: audit credenziali AV/VC + reset con password policy su ogni device.');
@@ -994,7 +1039,6 @@ function runAnalysis() {
     }
   }
 
-  // ── GOVERNANCE GAPS ──────────────────────────────────────────────────────
   if (!d.backup||d.backup==='none') gap(govGaps,'crit','Nessun backup','Ransomware senza backup = perdita totale dati + interruzione servizio. Art. 24 richiede backup, DR e gestione crisi come misura minima.','Art. 24 comma 2 lett. c — continuità operativa, backup, DR','→ Kaplet: strategia backup 3-2-1 + primo test di ripristino.');
   else if (d.backup==='local') gap(govGaps,'warn','Backup solo locale — non testato','I backup locali vengono cifrati dal ransomware insieme ai dati. Necessario offsite o cloud + test semestrale.','Art. 24 — continuità operativa','→ Kaplet: backup offsite + piano test ripristino.');
   else if (d.backup==='offsite') gap(govGaps,'info','Backup offsite senza DR plan documentato','Il backup esiste ma manca un DR plan con RTO/RPO definiti e testati.','Art. 24 — DR e gestione crisi','→ Kaplet: stesura DR plan + tabletop exercise.');
@@ -1005,29 +1049,24 @@ function runAnalysis() {
   else if (d.incident==='irp') gap(govGaps,'info','IRP documentato — referente CSIRT non designato','Il D.Lgs. 138/2024 richiede designazione formale del referente per la cybersicurezza entro 31/12/2025.','Art. 25 — designazione referente','→ Designare il referente CSIRT e aggiornare la registrazione ACN.');
   else gap(govGaps,'ok','IRP + referente CSIRT designato','Conforme Art. 25-26. Eseguire tabletop exercise periodiche.','Art. 25-26 — conforme');
 
-  // ── FORMAZIONE ── Art. 24 comma 2 lett. g
   if (!d.training||d.training==='none') gap(govGaps,'warn','Nessuna formazione cybersecurity del personale','Il fattore umano causa il 70%+ degli incidenti. NIS 2 richiede esplicitamente pratiche di igiene informatica e formazione continua di tutto il personale. Senza formazione, le misure tecniche vengono vanificate da un solo click su un link di phishing.','Art. 24 comma 2 lett. g — igiene informatica e formazione','→ Kaplet: piano formativo NIS 2 awareness + phishing simulation per il personale.');
   else if (d.training==='occasional') gap(govGaps,'info','Formazione occasionale e non strutturata','Strutturare un piano annuale documentato con attestati di partecipazione. Documentare i partecipanti per dimostrare compliance ad ACN.','Art. 24 — formazione','→ Kaplet: piano formativo annuale con attestati e documentazione compliance.');
   else gap(govGaps,'ok','Formazione cybersecurity strutturata','Conforme Art. 24 lett. g. Aggiornare i contenuti ogni anno in base alle nuove minacce.','Art. 24 lett. g — conforme');
 
-  // ── CRITTOGRAFIA ── Art. 24 comma 2 lett. h
   if (!d.crypto||d.crypto==='none') gap(govGaps,'crit','Nessuna cifratura — dati in chiaro','Dati trasmessi e archiviati in chiaro sono intercettabili e accessibili in caso di compromissione. NIS 2 richiede uso appropriato della crittografia come misura minima obbligatoria. Le registrazioni VMS e i log ACS contengono dati sensibili.','Art. 24 comma 2 lett. h — crittografia','→ Kaplet: implementazione TLS su tutti i flussi + cifratura storage NVR, server VMS e ACS.');
   else if (d.crypto==='partial') gap(govGaps,'warn','Cifratura solo parziale','Completare: cifrare anche i dati a riposo (storage NVR, server VMS, database ACS, backup). Le registrazioni video e i log di accesso fisico richiedono protezione specifica.','Art. 24 lett. h — crittografia','→ Kaplet: estensione cifratura a dati a riposo su tutti i sistemi di impianto.');
   else if (d.crypto==='transit') gap(govGaps,'info','Dati in transito cifrati, dati a riposo no','Aggiungere cifratura storage per le registrazioni VMS, i database ACS e i backup. Critico per soggetti essenziali.','Art. 24 lett. h — crittografia','→ Kaplet: cifratura disco NVR/server VMS + verifica backup cifrati.');
   else gap(govGaps,'ok','Cifratura completa in transito e a riposo','Conforme Art. 24 comma 2 lett. h. Verificare che i certificati siano aggiornati periodicamente.','Art. 24 lett. h — conforme');
 
-  // ── SUPPLY CHAIN ICT ── Art. 24 comma 2 lett. d
   if (!d.supplychain||d.supplychain==='none') gap(govGaps,'warn','Fornitori ICT e di impianto non valutati','Chi gestisce il VMS da remoto, chi aggiorna il firmware, chi mantiene le centraline ACS: tutti potenziali vettori di attacco supply chain. NIS 2 impone di valutarne le pratiche di sicurezza.','Art. 24 comma 2 lett. d — sicurezza supply chain','→ Kaplet: questionario sicurezza fornitori chiave + clausole contrattuali NIS 2.');
   else if (d.supplychain==='contract') gap(govGaps,'info','Solo clausole contrattuali generiche','Le clausole generiche non bastano. Raccogliere evidenze concrete: certificazioni ISO 27001, SOC 2, questionari specifici per i fornitori che accedono agli impianti.','Art. 24 lett. d — supply chain','→ Kaplet: implementazione questionario tecnico fornitori + raccolta evidenze.');
   else gap(govGaps,'ok','Valutazione fornitori strutturata','Conforme Art. 24 lett. d. Aggiornare le valutazioni ad ogni cambio fornitore critico.','Art. 24 lett. d — conforme');
 
-  // ── RESPONSABILITÀ CDA ── Art. 23 D.Lgs. 138/2024
   if (!d.cda||d.cda==='unaware') gap(govGaps,'crit','CDA non informato — responsabilità personale a rischio','Art. 23 D.Lgs. 138/2024: responsabilità diretta e personale degli organi di amministrazione. In caso di sanzione NIS 2, gli amministratori rispondono personalmente. Un CDA non informato è già inadempiente.','Art. 23 D.Lgs. 138/2024 — responsabilità personale organi direttivi','→ Kaplet: briefing urgente al CDA sugli obblighi NIS 2 e le responsabilità personali degli amministratori.');
   else if (d.cda==='partial') gap(govGaps,'warn','CDA informato ma senza piano approvato formalmente',"La conoscenza non basta: Art. 23 richiede supervisione attiva dell’implementazione da parte degli organi direttivi. Serve un piano formalmente approvato.",'Art. 23 — responsabilità organi direttivi','→ Kaplet: supporto nella predisposizione del piano NIS 2 da portare in approvazione al CDA.');
   else if (d.cda==='approved') gap(govGaps,'ok','CDA ha approvato formalmente il piano NIS 2','Buona postura governance. Documentare i verbali e prevedere un meccanismo di reporting periodico al CDA.','Art. 23 — conforme');
   else gap(govGaps,'ok','CDA supervisiona attivamente l\'implementazione NIS 2','Ottima governance. Conforme Art. 23. Documentare i verbali delle riunioni dove NIS 2 è trattato.','Art. 23 — conforme');
 
-  // ── RENDER ───────────────────────────────────────────────────────────────
   document.getElementById('progWrap').style.display = 'none';
   document.getElementById('s5').classList.remove('on');
   document.getElementById('results').style.display = 'block';
@@ -1037,7 +1076,6 @@ function runAnalysis() {
   document.getElementById('rBadge').innerHTML = `<div class="nis2badge ${bMap[cls]}">${badge}</div>`;
   document.getElementById('rDesc').textContent = desc;
 
-  // score
   const allGaps = [...netGaps,...vmsGaps,...acsGaps,...avGaps,...govGaps];
   const nCrit = allGaps.filter(g=>g.prio==='crit').length;
   const nWarn = allGaps.filter(g=>g.prio==='warn'||g.prio==='info').length;
@@ -1076,7 +1114,6 @@ function runAnalysis() {
   renderGaps(avGaps,'g-av','sec-av');
   renderGaps(govGaps,'g-gov','sec-gov');
 
-  // next steps
   let next = '';
   if (nCrit >= 4) next = `Con ${nCrit} criticità immediate distribuite sui verticali, il percorso consigliato è partire da un Audit & Assessment completo (Kaplet DESIGN) per avere una fotografia precisa dell'intera infrastruttura — rete, VMS, ACS e AV — con roadmap prioritizzata. In parallelo, gli interventi urgenti (firewall, credenziali default, accesso remoto esposto) vengono avviati subito nella fase BUILD. Il monitoring continuativo dal DOC Kaplet garantisce la compliance operativa NIS 2 dal 1° gennaio 2026.`;
   else if (nCrit > 0) next = `Ci sono ${nCrit} aree critiche che richiedono intervento immediato. Kaplet può supportare con un percorso mirato (DESIGN + BUILD) sulle vulnerabilità prioritarie, strutturando poi il completamento verso la conformità NIS 2 entro ottobre 2026.`;
@@ -1084,7 +1121,6 @@ function runAnalysis() {
 
   document.getElementById('rNext').textContent = next;
 
-  // PROPOSTA COMMERCIALE AUTOMATICA
   let pacchetto = '', valoreMin = 0, valoreMax = 0, inclusi = [], colore = '';
 
   if (nCrit >= 6) {
@@ -1155,7 +1191,6 @@ function runAnalysis() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── RESET ──────────────────────────────────────────────────────────────────
 function resetAll() {
   document.getElementById('results').style.display = 'none';
   document.getElementById('progWrap').style.display = '';
@@ -1180,7 +1215,6 @@ function resetAll() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// init
 renderProg();
 </script>
 </body>
