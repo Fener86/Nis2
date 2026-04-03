@@ -25,13 +25,11 @@
 html{scroll-behavior:smooth}
 body{background:var(--black);color:var(--white);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
 
-/* ── TOP BAR ── */
 .top-bar{height:2px;background:var(--green);width:100%}
 header{background:var(--black);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .logo{font-size:17px;font-weight:700;color:var(--green);letter-spacing:2px}
 .hright{font-size:10px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase}
 
-/* ── PROGRESS ── */
 .prog-wrap{max-width:860px;margin:0 auto;padding:28px 32px 0}
 .prog-steps{display:flex;border-bottom:1px solid var(--border)}
 .prog-step{flex:1;padding:10px 6px 12px;text-align:center;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:default;transition:all .2s}
@@ -40,10 +38,8 @@ header{background:var(--black);border-bottom:1px solid var(--border);padding:14p
 .prog-step .sn{font-size:16px;font-weight:800;display:block;margin-bottom:3px}
 .prog-step.done .sn::before{content:'✓ ';font-size:12px}
 
-/* ── CONTAINER ── */
 .wrap{max-width:860px;margin:0 auto;padding:36px 32px 100px}
 
-/* ── CARDS ── */
 .card{display:none}
 .card.on{display:block}
 
@@ -54,7 +50,6 @@ header{background:var(--black);border-bottom:1px solid var(--border);padding:14p
 .csub{font-size:12.5px;color:var(--gray);margin-bottom:28px;line-height:1.65;max-width:680px}
 .hrule{height:1px;background:var(--border);margin-bottom:28px}
 
-/* ── FIELD ── */
 .fg{margin-bottom:26px}
 .flabel{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:10px}
 .flabel .req{color:var(--green)}
@@ -84,11 +79,9 @@ textarea:focus{color:var(--white)}
 .dot{width:13px;height:13px;border:1.5px solid var(--dim);border-radius:50%;flex-shrink:0;margin-top:2px;transition:all .15s}
 .ri.s .dot{border-color:var(--green);background:var(--green)}
 
-/* section divider inside card */
 .sdiv{margin:32px 0 24px;padding-top:24px;border-top:1px solid var(--border)}
 .sdiv-title{font-size:11px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
 
-/* ── VENDOR CHIPS ── */
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .chip{
   padding:6px 14px;border:1px solid var(--border);border-radius:20px;
@@ -97,7 +90,6 @@ textarea:focus{color:var(--white)}
 .chip:hover{border-color:var(--dim);color:var(--white)}
 .chip.s{border-color:var(--green);color:var(--green);background:rgba(61,237,122,.07)}
 
-/* ── NAV ── */
 .nav{display:flex;justify-content:space-between;align-items:center;margin-top:36px}
 .btn{padding:11px 26px;border:none;border-radius:3px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;letter-spacing:.5px}
 .btn-back{background:transparent;border:1px solid var(--border);color:var(--gray)}
@@ -107,7 +99,6 @@ textarea:focus{color:var(--white)}
 .btn-go{background:var(--green);color:var(--black);font-size:13.5px;padding:13px 32px}
 .btn-go:hover{background:#60f094;transform:translateY(-1px)}
 
-/* ── RESULTS ── */
 #results{display:none}
 .res-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
 .res-title{font-size:34px;font-weight:300;color:var(--white);margin-bottom:20px;line-height:1.1}
@@ -120,9 +111,8 @@ textarea:focus{color:var(--white)}
 .b-out{background:rgba(6,214,160,.1);color:var(--teal);border-color:var(--teal)}
 .nis2desc{font-size:12px;color:var(--gray);line-height:1.65;max-width:720px;margin-bottom:28px}
 
-/* score */
 .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px}
-.sbox{border:1px solid var(--border);border-radius:3px;padding:20px;text-align:center}
+.sbox{border:1px solid var(--border);border-radius:3px;padding:20px;text-align:center;background:transparent}
 .sbox.r{border-color:rgba(255,68,68,.35)}
 .sbox.y{border-color:rgba(255,209,102,.35)}
 .sbox.g{border-color:rgba(6,214,160,.35)}
@@ -132,7 +122,6 @@ textarea:focus{color:var(--white)}
 .sbox.g .snum{color:var(--teal)}
 .slabel{font-size:8.5px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-top:6px}
 
-/* vertical sections */
 .vsec{margin-bottom:36px}
 .vsec-header{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:0}
 .vsec-header.r{color:var(--red)}
@@ -140,7 +129,6 @@ textarea:focus{color:var(--white)}
 .vsec-header.g{color:var(--teal)}
 .vsec-header.b{color:var(--blue)}
 
-/* gap item */
 .gi{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
 .gi:last-child{border-bottom:none}
 .gacc{width:3px;border-radius:2px;flex-shrink:0;align-self:stretch}
@@ -159,7 +147,6 @@ textarea:focus{color:var(--white)}
 .gart{font-size:10px;color:var(--green);margin-top:5px}
 .gact{font-size:11px;color:var(--white);margin-top:5px;font-style:italic}
 
-/* next box */
 .nbox{border:1px solid var(--green);border-radius:3px;padding:22px;margin-top:32px;background:rgba(61,237,122,.03)}
 .nbox-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:10px}
 .nbox-body{font-size:12.5px;color:var(--gray);line-height:1.7}
@@ -182,17 +169,60 @@ textarea:focus{color:var(--white)}
   transition:all .2s;
 }
 .pdf-btn:hover{background:#60f094;transform:translateY(-1px)}
-.pdf-export{
-  background:var(--black)!important;
-  color:var(--white)!important;
+
+.hidden{display:none!important}
+
+#pdf-stage{
+  position:fixed;
+  left:-99999px;
+  top:0;
+  width:860px;
+  background:#000;
+  color:#fff;
+  z-index:-1;
+  padding:0;
 }
-.pdf-export *{
+
+.pdf-sheet{
+  width:860px;
+  background:#000;
+  color:#fff;
+  padding:36px 32px 40px;
+  font-family:'Segoe UI',system-ui,sans-serif;
+}
+
+.pdf-sheet,
+.pdf-sheet *{
+  background-color:transparent;
+  color:#fff;
   -webkit-print-color-adjust:exact!important;
   print-color-adjust:exact!important;
 }
 
-/* hide logic */
-.hidden{display:none!important}
+.pdf-sheet .sbox,
+.pdf-sheet .nbox,
+.pdf-sheet .nis2badge,
+.pdf-sheet [style*="border:1px solid var(--border)"]{
+  background:#000!important;
+}
+
+.pdf-sheet .res-title strong,
+.pdf-sheet .gart,
+.pdf-sheet .nbox-tag,
+.pdf-sheet .logo{
+  color:var(--green)!important;
+}
+
+.pdf-sheet .res-tag,
+.pdf-sheet .slabel,
+.pdf-sheet .vsec-header,
+.pdf-sheet #rCompany,
+.pdf-sheet .gdesc,
+.pdf-sheet .nbox-body,
+.pdf-sheet [style*="color:var(--dim)"],
+.pdf-sheet [style*="color:var(--gray)"]{
+  color:#cfcfcf!important;
+}
 
 @media(max-width:620px){
   .wrap,.prog-wrap{padding-left:16px;padding-right:16px}
@@ -783,6 +813,8 @@ textarea:focus{color:var(--white)}
 
 </div>
 
+<div id="pdf-stage"></div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
@@ -791,13 +823,12 @@ const TOTAL = 5;
 const STEP_LABELS = ['_anagrafica','_networking','_security VMS','_ctrl accessi','_audio video'];
 
 function savePDF() {
-  const target = document.getElementById('results');
-  if (!target) return;
+  const results = document.getElementById('results');
+  const stage = document.getElementById('pdf-stage');
+  if (!results || !stage) return;
 
   const companyInput = document.getElementById('company');
-  const companyName = companyInput && companyInput.value
-    ? companyInput.value.trim()
-    : 'assessment';
+  const companyName = companyInput && companyInput.value ? companyInput.value.trim() : 'assessment';
 
   const safeName = companyName
     .normalize('NFD')
@@ -810,15 +841,24 @@ function savePDF() {
   const yyyy = today.getFullYear();
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const dd = String(today.getDate()).padStart(2, '0');
-
   const fileName = `NIS2-${safeName}-${yyyy}-${mm}-${dd}.pdf`;
 
-  const oldDisplay = target.style.display;
-  target.style.display = 'block';
-  target.classList.add('pdf-export');
+  const clone = results.cloneNode(true);
+  clone.id = 'pdf-clone';
+  clone.style.display = 'block';
+  clone.classList.add('pdf-sheet');
+
+  const actions = clone.querySelector('.pdf-actions');
+  if (actions) actions.remove();
+
+  const resetBtn = clone.querySelector('.btn-reset');
+  if (resetBtn) resetBtn.remove();
+
+  stage.innerHTML = '';
+  stage.appendChild(clone);
 
   const opt = {
-    margin: [0.3, 0.3, 0.3, 0.3],
+    margin: [0.15, 0.15, 0.15, 0.15],
     filename: fileName,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
@@ -833,20 +873,14 @@ function savePDF() {
       format: 'a4',
       orientation: 'portrait'
     },
-    pagebreak: {
-      mode: ['css', 'legacy']
-    }
+    pagebreak: { mode: ['css', 'legacy'] }
   };
 
-  html2pdf().set(opt).from(target).save()
-    .then(() => {
-      target.classList.remove('pdf-export');
-      target.style.display = oldDisplay;
-    })
-    .catch(() => {
-      target.classList.remove('pdf-export');
-      target.style.display = oldDisplay;
-    });
+  html2pdf().set(opt).from(clone).save().then(() => {
+    stage.innerHTML = '';
+  }).catch(() => {
+    stage.innerHTML = '';
+  });
 }
 
 function renderProg() {
@@ -933,7 +967,6 @@ function runAnalysis() {
   }
 
   const bMap = {essential:'b-ess', important:'b-imp', verify:'b-ver', outside:'b-out'};
-
   const netGaps=[], vmsGaps=[], acsGaps=[], avGaps=[], govGaps=[];
 
   function gap(arr, prio, title, desc, art, action='') {
